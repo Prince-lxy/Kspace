@@ -52,8 +52,8 @@ $ dd if=/dev/zero of=floppya.img bs=512 count=2880
 megs: 32
 
 # BIOS和VGA BIOS.
-romimage: file=???/BIOS-bochs-latest
-vgaromimage: file=???/VGABIOS-lgpl-latest
+romimage: file=$BXSHARE/BIOS-bochs-latest
+vgaromimage: file=$BXSHARE/VGABIOS-lgpl-latest
 
 # 启动盘
 floppya: 1_44=floppya.img, status=inserted
@@ -67,13 +67,13 @@ log: bochsout.log
 # 开启或关闭某些功能。
 # 关闭鼠标，并打开键盘。
 mouse: enabled=0
-keyboard: keymap=???/keymaps/x11-pc-us.map
+keyboard: keymap=$BXSHARE/keymaps/x11-pc-us.map
 ```
 
 运行 bochs:
 
 ```
-bochs -f bochsrc
+bochs -f bochsrc -q
 ```
 
 
