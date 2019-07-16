@@ -43,7 +43,7 @@
 
 这个程序一开始像一个快递员，后来搬运的东西复杂了，也变成了一个系统。
 
-通过[最简单的bootloader程序](simplest-boot-code.md)来简单感受以下 bootloader 中 boot 的部分，这部分实际上没有包含 loader 的逻辑。
+通过[最简单的bootloader程序](hello-world.md)来简单感受以下 bootloader 中 boot 的部分，这部分实际上没有包含 loader 的逻辑。
 
 #### 1-4 kernel
 
