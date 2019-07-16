@@ -16,9 +16,9 @@
 ```
 ;; 文件名 hello-world.asm
 
-start:
-	org 0x7c00
+org 0x7c00
 
+start:
 	;; es:bp = 字符串首地址
 	mov ax, cx
 	mov es, ax
