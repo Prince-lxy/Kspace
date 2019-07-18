@@ -20,7 +20,7 @@ org 0x7c00
 
 start:
 	;; es:bp = 字符串首地址
-	mov ax, cx
+	mov ax, cs
 	mov es, ax
 	mov ax, msg
 	mov bp, ax
