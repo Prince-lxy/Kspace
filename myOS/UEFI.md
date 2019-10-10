@@ -7,6 +7,8 @@
 - **2 结构**
 - **3 接口**
 - **4 UEFI 启动过程**
+- **5 UEFI 开发环境搭建**
+  - **5.1 EDK2 Linux 开发环境**
 
 ---
 
@@ -79,6 +81,52 @@
   - 系统进入 RT(Run Time) 阶段后,系统的控制权从 UEFI 内核转交到 OS Loader 手中,随着 OS Loader 的执行,OS 最终取得对系统的控制权。
 - AL (系统灾难恢复期)
   - 在 RT 阶段,如果系统(硬件或软件)遇到灾难性错误,系统固件需要提供错误处理和灾难恢复机制,这种机制运行在 AL(After Life)阶段。
+
+
+
+### 5 UEFI 开发环境搭建
+
+UEFI 是一种标准,它没有给出具体的实现。软件厂商可以根据 UEFI 标准开发自己的 UEFI 实现,其中常用的开源实现是 EDK2。
+
+#### 5.1 EDK2 Linux 开发环境
+
+1. 安装必要的工具包
+
+```
+$ sudo apt-get install build-essential uuid-dev iasl git gcc-5 nasm
+```
+
+2. 下载 EDK2 源码
+
+```
+$ git clone https://github.com/tianocore/edk2.git
+```
+
+3. 编译 BaseTools
+
+```
+$ make -C BaseTools
+```
+
+4. 建立 build 环境
+
+```
+$ source edksetup.sh
+```
+
+5. 编译指定模块
+
+```
+$ build -a [IA32|X64|ARM|IPC|EBC] -p xxxPkg/xxxPkg.dsc -m xxxPkg/xxxx/xxxx.inf
+```
+
+编译后的文件放在 Build 目录下。
+
+6. 运行模拟器
+
+```
+$ build run
+```
 
 
 
