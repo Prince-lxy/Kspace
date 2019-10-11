@@ -96,11 +96,27 @@ UEFI 是一种标准,它没有给出具体的实现。软件厂商可以根据 U
 $ sudo apt-get install build-essential uuid-dev iasl git gcc-5 nasm
 ```
 
-2. 下载 EDK2 源码
+> build-essential: 构建必备软件包的信息列表 
+> uuid-dev: 通用唯一 ID 库头文件和静态库 
+> iasl: 英特尔 ASL 编译器 / 反编译器 
+> git: 版本控制工具 
+> gcc-5: GNU C 编译器 
+> nasm: 通用 X86 汇编器
+
+2. 下载 EDK2 源码并更新子模块
 
 ```
 $ git clone https://github.com/tianocore/edk2.git
+$ cd edk2
+$ git submodule update --init --recursive
 ```
+
+> EDK2 工程包含了多个子模块： 
+> 'SoftFloat' (https://github.com/ucb-bar/berkeley-softfloat-3.git) 
+> 'CryptoPkg/Library/OpensslLib/openssl' (https://github.com/openssl/openssl) 
+> 'boringssl' (https://boringssl.googlesource.com/boringssl) 
+> 'krb5' (https://github.com/krb5/krb5) 
+> 'pyca.cryptography' (https://github.com/pyca/cryptography.git) 
 
 3. 编译 BaseTools
 
@@ -120,7 +136,7 @@ $ source edksetup.sh
 $ build -a [IA32|X64|ARM|IPC|EBC] -p xxxPkg/xxxPkg.dsc -m xxxPkg/xxxx/xxxx.inf
 ```
 
-编译后的文件放在 Build 目录下。
+编译后的 efi 格式文件放在 Build 目录下。
 
 6. 运行模拟器
 
