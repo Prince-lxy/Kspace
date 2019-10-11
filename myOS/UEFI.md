@@ -9,6 +9,7 @@
 - **4 UEFI 启动过程**
 - **5 UEFI 开发环境搭建**
   - **5.1 EDK2 Linux 开发环境**
+  - **5.2 OVMF 开发环境**
 
 ---
 
@@ -142,6 +143,46 @@ $ build -a [IA32|X64|ARM|IPC|EBC] -p xxxPkg/xxxPkg.dsc -m xxxPkg/xxxx/xxxx.inf
 
 ```
 $ build run
+```
+
+#### 5.2 OVMF 开发环境
+
+OVMF ( Open Virtual Machine Firmware,开放虚拟机固件)是用于虚拟机上的 UEFI 固件。在模拟器中测试非常方便,但模拟器功能有限,并且模拟器只能测试 32 位程序。在虚拟机中测试无疑是一种方便、快捷的方式,它既能较好地模拟真实环境,又可以做到快速、方便。EDK2 提供了制作虚拟机固件的方法,称为 OVMF。
+
+1. 制作 OVMF 固件 OVMF.fd 文件
+
+64位：
+
+```
+$ build -a X64 -p OvmfPkg\OvmfPkgX64.dsc
+```
+
+32位：
+
+```
+$ build -a IA32 -p OvmfPkg\OvmfPkgIa32.dsc
+```
+
+apt-get:
+
+```
+$ apt-get install ovmf
+```
+
+文件位于 /usr/share/ovmf/OVMF.fd
+
+2. 安装 qemu 虚拟机
+
+```
+$ apt-get install qemu
+```
+
+3. 制作启动盘并运行虚拟机
+
+```
+$ dd if=/dev/zero of=hda.img bs=xxx count=xxx
+$ mkfs.vfat hda.img
+$ sudo qemu-system-x86_64 -bios /usr/share/ovmf/OVMF.fd -hdd hda.img
 ```
 
 
