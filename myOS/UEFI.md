@@ -15,8 +15,11 @@
 
 ### 1 特性
 
-- 分区各式：BIOS 采用 MBR，UEFI 采用 GPT。
-- 编码99%都是由C语言完成。
+| VS | BIOS | UEFI |
+| -- | ---- | ---- |
+| 分区格式 | MBR | GPT |
+| 编码格式 | 主要是汇编语言 | 编码99%都是由C语言完成 |
+
 - 一改之前的中断、硬件端口操作的方法，而采用了Driver/protocol的新方式。
 - 将不支持X86实模式，而直接采用Flat mode。
 - 输出也不再是单纯的二进制code，改为Removable Binary Drivers。
