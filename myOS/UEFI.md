@@ -46,7 +46,18 @@
 - Image
   - UEFI Image 包含 PE32+ 头部, 相比常规 PE32 头支持 64-bit 重定向功能。
   - PE32+ 头中的 Subsystem 控制 Image 类型， 该类型影响 Image 被固件加载后的内存类型和退出方式。
+    | Type | Value | Code Memory Type | Data Memory Type |
+    | ---- | ----- | ---------------- | ---------------- |
+    | EFI_IMAGE_SUBSYSTEM_EFI_APPLICATION | 10 | EfiLoaderCode | EfiLoaderData |
+    | EFI_IMAGE_SUBSYSTEM_EFI_BOOT_SERVICE_DRIVER | 11 | EfiBootServiceCode | EfiBootServicesData |
+    | EFI_IMAGE_SUBSYSTEM_EFI_RUNTIME_DRIVER | 12 | EfiRuntimeServicesCode | EfiRuntimeServicesData |
   - PE32+ 头中的 Machine 控制 Image 所适用的平台架构类型。
+    | Type | Value |
+    | ---- | ----- |
+    | EFI_IMAGE_MACHINE_IA32 | 0x014c |
+    | EFI_IMAGE_MACHINE_IA64 | 0x0200 |
+    | EFI_IMAGE_MACHINE_EBC | 0x0EBC |
+    | EFI_IMAGE_MACHINE_x64 | 0x8664 |
   - UEFI Image 通过 LoadImage() 函数来加载运行，通过 Exit() 函数来结束运行并交换控制权。
 
 - 启动服务 (Boot Services, BS)
