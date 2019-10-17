@@ -5,7 +5,7 @@
 ## Contents / Mind mapping
 - **1 特性**
 - **2 结构**
-- **3 接口**
+- **3 内容**
 - **4 UEFI 启动过程**
 - **5 UEFI 开发环境搭建**
   - **5.1 EDK2 Linux 开发环境**
@@ -30,15 +30,24 @@
 
 - UEFI Image
   - UEFI 应用：启动管理、UEFI Shell、诊断、调试、调度和供应。
-  - OS Loader：启动操作系统的特殊应用。
-  - UEFI 驱动：提供设备间的接口协议。
+  - OS Loader：启动操作系统的特殊应用, 如果执行失败会通过 Exit() 函数结束运行并将控制器交还给固件， 如果运行成功可以通过 ExitBootServices() 函数将控制权交给加载到内存的 OS。。
+  - UEFI 驱动：提供设备间的接口协议, 包括 Boot Serveces 和 Runtime Services。
+    - Boot Service Drivers 在 OS Loader 调用 ExitBootServices() 函数后会被清除。
+    - Runtime Drivers 在 OS Loader 将控制权递交到 OS 后仍然可以使用。
+
 - 平台初始化框架
   - PEI：EFI 预初始化，主存储器初始化模块、检测和加载驱动执行环境核心。
   - DXE：驱动执行环境，提供了设备驱动和协议接口环境界面。
 
 
 
-### 3 接口
+### 3 内容
+
+- Image
+  - UEFI Image 包含 PE32+ 头部, 相比常规 PE32 头支持 64-bit 重定向功能。
+  - PE32+ 头中的 Subsystem 控制 Image 类型， 该类型影响 Image 被固件加载后的内存类型和退出方式。
+  - PE32+ 头中的 Machine 控制 Image 所适用的平台架构类型。
+  - UEFI Image 通过 LoadImage() 函数来加载运行，通过 Exit() 函数来结束运行并交换控制权。
 
 - 启动服务 (Boot Services, BS)
   - 事件服务：事件是异步操作的基础。有了事件的支持,才可以在 UEFI 系统内执行并发操作。
@@ -48,6 +57,7 @@
   - 驱动管理：包括用于将驱动安装到控制器的 connect 服务,以及将驱动从控制器上卸载的 disconnect 服务。
   - Image 管理：此类服务包括加载、卸载、启动和退出 UEFI 应用程序或驱动。
   - ExitBootServices 服务：用于结束启动服务。
+
 - 运行时服务 (Runtime Service, RT)
   - 时间服务：读取 / 设定系统时间。读取 / 设定系统从睡眠中唤醒的时间。
   - 读写 UEFI 系统变量服务：读取 / 设置系统变量,例如 BootOrder 用于指定启动项顺序。通过这些系统变量可以保存系统配置。
