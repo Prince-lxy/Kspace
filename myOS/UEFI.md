@@ -114,7 +114,7 @@ $ sudo apt-get install build-essential uuid-dev iasl git gcc-5 nasm
 ```
 
 > build-essential: 构建必备软件包的信息列表 
-> uuid-dev: 通用唯一 ID 库头文件和静态库 
+> uuid-dev: 通用唯一 ID 库头文件和静态库 (如果是 Ubuntu16.04 环境下，需要默认的 source.list 才可以成功安装此包)
 > iasl: 英特尔 ASL 编译器 / 反编译器 
 > git: 版本控制工具 
 > gcc-5: GNU C 编译器 
@@ -147,18 +147,20 @@ $ make -C BaseTools
 $ source edksetup.sh
 ```
 
+> 实际上 build 工具为 EmulatorPkg 目录下的 build.sh 文件
+
 5. 编译指定模块
 
 ```
-$ build -a [IA32|X64|ARM|IPC|EBC] -p xxxPkg/xxxPkg.dsc -m xxxPkg/xxxx/xxxx.inf
+$ build -a [IA32|X64|ARM|IPC|EBC] -t ${complie-tool}  -p xxxPkg/xxxPkg.dsc -m xxxPkg/xxxx/xxxx.inf
 ```
 
-编译后的 efi 格式文件放在 Build 目录下。
+> 64位环境下默认命令：build -a X64 -t GCC5 -p EmulatorPkg/EmulatorPkg.dsc
 
 6. 运行模拟器
 
 ```
-$ build run
+$ cd Build/EmulatorX64/DEBUG_GCC5/X64/ && ./Host
 ```
 
 #### 5.2 OVMF 开发环境
