@@ -188,13 +188,13 @@ OVMF ( Open Virtual Machine Firmware,开放虚拟机固件)是用于虚拟机上
 64位：
 
 ```
-$ build -a X64 -p OvmfPkg\OvmfPkgX64.dsc
+$ build -a X64 -p OvmfPkg\OvmfPkgX64.dsc [-DDEBUG_ON_SERIAL_PORT=TRUE]
 ```
 
 32位：
 
 ```
-$ build -a IA32 -p OvmfPkg\OvmfPkgIa32.dsc
+$ build -a IA32 -p OvmfPkg\OvmfPkgIa32.dsc [-DDEBUG_ON_SERIAL_PORT=TRUE]
 ```
 
 apt-get:
@@ -216,7 +216,7 @@ $ apt-get install qemu
 ```
 $ dd if=/dev/zero of=hda.img bs=xxx count=xxx
 $ mkfs.vfat hda.img
-$ sudo qemu-system-x86_64 -bios /usr/share/ovmf/OVMF.fd -hdd hda.img
+$ sudo qemu-system-x86_64 -bios /usr/share/ovmf/OVMF.fd -hdd hda.img -s -serial file:debug.log
 ```
 
 
