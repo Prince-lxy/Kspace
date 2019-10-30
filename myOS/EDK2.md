@@ -5,6 +5,7 @@
 ## Contents / Mind mapping
 - **模块**
   - **标准应用程序工程模块**
+  - **Shell 应用程序工程模块**
 
 
 
@@ -56,6 +57,22 @@
   - Shell 调用 gBS->StartImage() 启动这个 Image 对象。
   - 进入 eif 文件入口 _ModuleEntryPoint。
   - 进入模块入口函数 UefiMain。
+
+#### Shell 应用程序工程模块
+
+- 入口函数：INTN ShellAppMain(UINTN Argc, CHAR16 ** Argv)
+- 工程文件
+  - Defines
+    - MODULE_TYPE: UEFI_APPLICATION
+    - ENTRY_POINT: ShellCEntryLib
+  - Packages
+    - MdePkg/MdePkg.dec 与 ShellPkg/ShellPkg.dec 必须列出。
+  - LibraryClasses
+    - ShellCEntryLib 必须列出。
+    - UefiBootServicesTableLib 和 UefiLib 通常也要列出。
+- 执行过程
+  - 模块入口函数 ShellCEntryLib 的参数与标准应用程序相同。
+  - 模块入口函数调用 EFI_SHELL_PARAMETERS_PROTOCOL 获取命令行参数并传给入口函数 ShellAppMain。
 
 
 
