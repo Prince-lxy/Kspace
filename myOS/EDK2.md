@@ -74,6 +74,26 @@
   - 模块入口函数 ShellCEntryLib 的参数与标准应用程序相同。
   - 模块入口函数调用 EFI_SHELL_PARAMETERS_PROTOCOL 获取命令行参数并传给入口函数 ShellAppMain。
 
+#### main 应用程序工程模块
+
+- 入口函数：int main(int argc, char ** argv)
+- 工程文件
+  - Defines
+    - MODULE_TYPE: UEFI_APPLICATION
+    - ENTRY_POINT: ShellCEntryLib
+  - Packages
+    - MdePkg/MdePkg.dec, ShellPkg/ShellPkg.dec, StdLib/StdLib.dec 必须列出。
+  - LibraryClasses
+    - ShellCEntryLib 提供 ShellCEntryLib 函数。
+    - LibC 提供 ShellAppMain 函数。
+    - LibStdio 提供标准 C 输入输出函数，如 printf()。
+- 编译
+  - main 应用程序工程模块要在 AppPkg 环境下才能编译成功，首先要将本工程的工程文件添加到 AppPkg/AppPkg.dsc 文件的 Components 块后通过 `build -p AppPkg/AppPkg.dsc -m xxx.inf` 进行编译。
+- 执行过程
+  - 模块入口函数 ShellCEntryLib 的参数与标准应用程序相同。
+  - 模块入口函数调用 EFI_SHELL_PARAMETERS_PROTOCOL 获取命令行参数并传给入口函数 ShellAppMain。
+  - ShellAppMain 函数调用 main 函数。
+
 
 
 ---
