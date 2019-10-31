@@ -94,6 +94,19 @@
   - 模块入口函数调用 EFI_SHELL_PARAMETERS_PROTOCOL 获取命令行参数并传给入口函数 ShellAppMain。
   - ShellAppMain 函数调用 main 函数。
 
+#### 库模块
+
+- 工程文件
+  - MODULE_TYPE: BASE
+  - LIBRARY_CLASS: 库名字
+    - 指明本库模块可以被引用的模块类型：`库名字 | 模块类型１ 模块类型２`
+  - 不要设置：ENTRY_POINT
+  - CONSTRUCTOR: 如果在使用之前需要初始化该库，就在本项后面填写本库的构造函数。
+  - DESTRUCTOR: 如果在使用之后需要清理库中占用的资源，就在本项后面填写本库的析构函数。
+- 库使用规则
+  - 模块所属的包声明文件(.dsc)中 LibraryClasses 下声明该库，语法为：`库名称 | 库工程文件相对于 EDK2 根目录的相对路径`　。
+  - 模块的工程文件中 LibraryClasses 下声明该库的名称。
+
 
 
 ---
