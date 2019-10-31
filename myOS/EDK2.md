@@ -107,6 +107,19 @@
   - 模块所属的包声明文件(.dsc)中 LibraryClasses 下声明该库，语法为：`库名称 | 库工程文件相对于 EDK2 根目录的相对路径`　。
   - 模块的工程文件中 LibraryClasses 下声明该库的名称。
 
+#### UEFI 驱动模块
+
+- 分类
+  - 符合 UEFI 驱动模型的驱动：UEFI_DRIVER
+  - DXE 驱动：DXE_DRIVER, DXE_SAL_DRIVER, DXE_SMM_DRIVER, DXE_RUNTIME_DRIVER
+- UEFI 驱动工程文件
+  - Defines:
+    - MODULE_TYPE: UEFI_DRIVER
+  - Sources:
+    - 通常都约定 ComponentName.c 中定义驱动名字。
+  - LibraryClasses:
+    - 必须包含 UefiDriverEntryPoint, 该模块中包含 UEFI_ENTRYPOINT
+
 
 
 ---
