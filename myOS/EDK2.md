@@ -10,6 +10,7 @@
   - **库模块**
   - **UEFI 驱动模块**
 - **包**
+  - **.dsc 文件**
 
 
 
@@ -134,6 +135,47 @@
 - 编译工具即功能
   - build: 用于编译包，需要一个 .dec 文件，一个 .dsc 文件，多个 .inf 文件。
   - GenFW: 用于制作固件，需要一个 .dec 文件，一个 .fdf 文件，多个 .efi 文件。
+
+#### .dsc 文件
+
+- Defines
+  - 功能：设置 build 全局宏变量。
+  - 语法：`变量名 = 值`，用 DEFINE/EDK_GLOBAL 修饰的变量可以在 .dsc .fdf 文件中通过 $(变量名) 的方法使用。
+  - 变量：
+    - DSC_SPECIFICATION: 通常为 0x00010005。
+    - PLATFORM_GUID: 平台 GUID。
+    - PLATFORM_VERSION: 平台版本号。
+    - PLATFORM_NAME: 平台名称。
+    - SKUID_IDENTIFIER: 通常为 Default。
+    - SUPPORTED_ARCHITECTURES: 已支持的平台，用'|'分割不同平台。
+    - BUILD_TARGETS: DEBUG|RELEASE
+    - OUTPUT_DIRECTORY: 目标文件路径。（可选）
+    - FLASH_DEFINITION: FDF 文件。（可选）
+    - BUILD_NUMBER: 用于 Makefile。（可选）
+    - FIX_LOAD_TOP_MEMORY_ADDRESS: 驱动、应用在内核中的地址。（可选）
+    - TIME_STAMP_FILE: 该文件包含了一个时间戳，所有编译过程中生成的文件都使用该时间戳。（可选）
+    - DEFINE: `DEFINE XXX = XXX` 此处定义的宏可以在 .dsc 文件的后续部分使用。（可选）
+- LibraryClasses
+  - 功能：定义了库的名字和库 .inf 文件相对路径。这些库可以被 Components 中的模块引用。
+  - 语法
+    - 标签：`[LibraryClasses.$(Arch).$(MODULE_TYPE), LibraryClasses.$(Arch1).$(MODULE_TYPE1)...]`
+    - 模块：`LibraryName | Path/LibraryName.inf`
+- Components
+  - 功能：包含了会被 build 编译的模块集合。
+  - 语法
+    - 标签：`[Components.$(Arch)]`
+    - 模块：`Path/xxx.inf`
+    - 嵌套：`{<LibraryClasses> LibraryName | Path/LibraryName.inf}` 可以通过在模块名后面用大括号嵌套独立使用的库标签。
+- BuildOptions
+  - 功能：与 .inf 文件中的对应标签功能大致相同，此处的编译选项对本 .dsc 的所有模块有效。
+  - 语法
+    - 标签：`[BuildOptions.$(Arch)]`
+    - 内容：`[编译器]:[$(Target)]_[Tool]_[$(Arch)]_[CC|DLINK]_FLAGS=`
+- PCD
+  - 功能：定义平台配置变量。
+  - 语法
+    - 定义：`命名空间.变量名 | 值 | 类型 | 值最大长度`
+    - 使用：LibPcdGetPtr(_PCD_TOKEN_变量名)
 
 
 
