@@ -11,6 +11,7 @@
   - **UEFI 驱动模块**
 - **包**
   - **.dsc 文件**
+  - **.dec 文件**
 
 
 
@@ -176,6 +177,36 @@
   - 语法
     - 定义：`命名空间.变量名 | 值 | 类型 | 值最大长度`
     - 使用：LibPcdGetPtr(_PCD_TOKEN_变量名)
+
+#### .dec 文件
+
+- Defines
+  - 功能：用于提供包名称、GUID、版本号等信息。
+  - 变量
+    - DEC_SPECIFICATION: 通常为 0x00010005。
+    - PACKAGE_NAME: 包名。
+    - PACKAGE_GUID: 包 GUID。
+    - PACEAGE_VERSION: 包版本号。
+- Includes
+  - 功能：列出了本包所提供的头文件的位置。
+  - 语法
+    - 标签：`[Includes.$(Arch)]`
+    - 内容：相对于包中 .dsc 文件所在目录的相对目录。
+- LibraryClasses
+  - 功能：包可以通过 .dec 文件对外提供库，库的头文件位于 Include/Library 目录下。
+  - 语法
+    - 标签：`[LibraryClasses.$(Arch)]`\
+    - 内容：`LibraryName | Path/LibraryHeader.h`
+- Guids
+  - 功能：包的 Include/Guid 中的头文件内定义了很多仅仅是声明的 GUID，这里保存了那些 GUID 的值，编译时 build 会将这些值复制到 AutoGen.c 中。
+  - 语法
+    - 标签：`[Guids.$(Arch)]`
+    - 内容：`GUIDName = GUIDValue`
+- Protocols
+  - 功能：包的 Include/Protocols 中的头文件内定义了很多仅仅是声明的 Protocol GUID，这里保存了那些 GUID 的值。
+  - 语法
+    - 标签：`[Protocols.$(Arch)]`
+    - 内容：`ProtocolName = GUIDValue`
 
 
 
