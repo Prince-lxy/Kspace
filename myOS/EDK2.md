@@ -9,6 +9,7 @@
   - **main 应用程序工程模块**
   - **库模块**
   - **UEFI 驱动模块**
+- **包**
 
 
 
@@ -122,6 +123,17 @@
     - 通常都约定 ComponentName.c 中定义驱动名字。
   - LibraryClasses:
     - 必须包含 UefiDriverEntryPoint, 该模块中包含 UEFI_ENTRYPOINT
+
+
+
+### 包
+
+- 结构
+  - 平台描述文件（.dsc）+ 平台声明文件（.dec）+ 模块集合
+  - 如果需要生成固件，还需要有 Flash 描述文件（.fdf）
+- 编译工具即功能
+  - build: 用于编译包，需要一个 .dec 文件，一个 .dsc 文件，多个 .inf 文件。
+  - GenFW: 用于制作固件，需要一个 .dec 文件，一个 .fdf 文件，多个 .efi 文件。
 
 
 
