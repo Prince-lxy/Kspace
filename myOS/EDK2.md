@@ -12,6 +12,8 @@
 - **包**
   - **.dsc 文件**
   - **.dec 文件**
+- **协议**
+  - **协议在 UEFI 中的存在形式**
 
 
 
@@ -207,6 +209,55 @@
   - 语法
     - 标签：`[Protocols.$(Arch)]`
     - 内容：`ProtocolName = GUIDValue`
+
+
+
+### 协议
+
+协议本身是服务器和客户端之间的约定，而 EDK2 中的协议是广义上的协议，提供服务（函数实现）的一方是服务器，使用服务（函数调用）的一方是客户端。
+
+#### 协议在 UEFI 中的存在形式
+
+EDK2 用 c 的方式 实现了 c++ 的面向对象。
+
+当一个 .efi 文件被加载如内存以后，UEFI 将其描述为 IHANDLE 对象：
+
+```
+typedef struct {
+	UINTN Signature;			// 此 Handle 类别
+	LIST_ENTRY ALLHandles;			// 所有 IHANDLE 组成的链表
+	LIST_ENTRY Protocols;			// 此 Handle 的 Protocols 链表
+	UINTN LocateRequest;
+	UINTN Key;
+} IHANDLE;
+```
+
+IHANDLE 对象中的 Protocols 成员是双向链表，链表中的每一个元素是 PRPTOCOL_INTERFAC 对象：
+
+```
+typedef struct {
+	UINTN Signature;
+	LIST_ENTRY Link;
+	IHANDLE *Handle;
+	LIST_ENTRY ByProtocol;
+	PROTOCOL_ENTRY *Protocol;		// Protocol 的 GUID
+	VOID *Interface;			// Protocol 的实例
+	LIST_ENTRY OpenList;
+	UINTN OpenListCount;
+} PROTOCOL_INTERFACE;
+```
+
+PROTOCOL_INTERFACE 对象的 Interface 成员表示某个具体的 PROTOCOL_ENTRY 对象：
+
+```
+typedef struct {
+	UINTN Signature;
+	LIST_ENTRY AllEntries;
+	EFI_GUID ProtocolID;
+	LIST_ENTRY Protocols;
+	LIST_ENTRY Notify;
+} PROTOCOL_ENTRY;
+```
 
 
 
