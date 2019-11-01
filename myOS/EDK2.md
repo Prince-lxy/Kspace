@@ -14,6 +14,7 @@
   - **.dec 文件**
 - **协议**
   - **协议在 UEFI 中的存在形式**
+  - **协议的使用**
 
 
 
@@ -258,6 +259,16 @@ typedef struct {
 	LIST_ENTRY Notify;
 } PROTOCOL_ENTRY;
 ```
+
+#### 协议的使用
+
+- 寻找 Protocol 对象
+  - gBS->OpenProtocol
+  - gBS->HandleProtocol
+  - gBS->LocateProtocol
+- 使用 Protocol 提供的服务
+- 关闭 Protocol
+  - gBS->CloseProtocol
 
 
 
