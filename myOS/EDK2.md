@@ -284,6 +284,15 @@ typedef struct {
       - EFI_OPEN_PROTOCOL_BY_DRIVER 0x00000010
       - EFI_OPEN_PROTOCOL_EXCLUSIVE 0x00000020
   - gBS->HandleProtocol
+    - 功能：实际上调用的还是 OpenProtocol ，只是做了参数上的简化。
+    - 参数
+      - IN EFI_HANDLE Handle: 指定的 Handle
+      - IN EFI_GUID Protocol: 要打开的 Protocol, 指向该 Protocol 的 GUID 指针
+      - OUT VOID **Interface: 返回打开的 Protocol 对象
+    - 特性
+      - AgentHandle 固定为 gDxeCoreImageHandle 。
+      - ControllerHandle 固定为 NULL 。
+      - Attributes: 固定为 EFI_OPEN_PROTOCOL_BY_HANDLE_PROTOCOL 。
   - gBS->LocateProtocol
 - 使用 Protocol 提供的服务
 - 关闭 Protocol
