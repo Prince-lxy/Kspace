@@ -264,6 +264,25 @@ typedef struct {
 
 - 寻找 Protocol 对象
   - gBS->OpenProtocol
+    - 功能：用于查询指定的 Handle 中是否有支持制定的 Protocol ，如果支持，则打开该 Protocol ，如果不支持则返回错误信息。
+    - 参数
+      - IN EFI_HANDLE Handle: 指定的 Handle
+      - IN EFI_GUID Protocol: 要打开的 Protocol, 指向该 Protocol 的 GUID 指针
+      - OUT VOID **Interface: 返回打开的 Protocol 对象
+      - IN EFI_HANDLE AgentHandle: 打开此 Protocol 的 Image
+      - IN EFI_HANDLE ControllerHandle: 使用此 Protocol 的控制器
+      - IN UINT32 Attributes: 打开 Protocol 的方式
+    - 特性
+      - 如果 Handle 的 Protocol 链表中有对应的 Protocol ，则将 Protocol 对象的指针写入 *Interface 中，否则返回错误信息。
+      - 如果是驱动调用这个函数，ControllerHandle 是该驱动的控制器，AgentHandle 是 EFI_DRIVER_BINDING_PROTOCOL 对象的 Handle 。
+      - 如果调用驱动的是应用程序，AgentHandle 是该应用程序的 Image, ControllerHandle 此时可以忽略。
+    - 打开方式
+      - EFI_OPEN_PROTOCOL_BY_HANDLE_PROTOCOL 0x00000001
+      - EFI_OPEN_PROTOCOL_GET_PROTOCOL 0x00000002
+      - EFI_OPEN_PROTOCOL_TEST_PROTOCOL 0x00000004
+      - EFI_OPEN_PROTOCOL_BY_CHILD_CONTROLLER 0x00000008
+      - EFI_OPEN_PROTOCOL_BY_DRIVER 0x00000010
+      - EFI_OPEN_PROTOCOL_EXCLUSIVE 0x00000020
   - gBS->HandleProtocol
   - gBS->LocateProtocol
 - 使用 Protocol 提供的服务
