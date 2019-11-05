@@ -312,6 +312,12 @@ typedef struct {
     - 特性
       - SearchType 有三种：AllHandles 表示找出系统中所有的 Handle; ByRegisterNotify 用于从 RegisterProtocolNotify 中找出匹配 SearchKey 的 Handle; ByProtocol 用于从系统数据库中找设备。
       - LocateHandle 函数与本函数类似，只是 Buffer 需要调用者自行管理，参数中多一个调用者自己开辟的 Buffer 。
+  - gBS->ProtocolPerHandle
+    - 功能：获取制定设备所支持的所有 Protocol 。
+    - 参数
+      - IN EFI_HANDLE Handle: 指定设备
+      - OUT EFI_GUID ***ProtocolBuffer: 返回 Protocol GUID 数组
+      - OUT UINTN *ProtocolBufferCount: 返回 Protocol 的数目
 - 使用 Protocol 提供的服务
 - 关闭 Protocol
   - gBS->CloseProtocol
