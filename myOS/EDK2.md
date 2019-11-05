@@ -267,7 +267,7 @@ typedef struct {
     - 功能：用于查询指定的 Handle 中是否有支持制定的 Protocol ，如果支持，则打开该 Protocol ，如果不支持则返回错误信息。
     - 参数
       - IN EFI_HANDLE Handle: 指定的 Handle
-      - IN EFI_GUID Protocol: 要打开的 Protocol, 指向该 Protocol 的 GUID 指针
+      - IN EFI_GUID *Protocol: 要打开的 Protocol, 指向该 Protocol 的 GUID 指针
       - OUT VOID **Interface: 返回打开的 Protocol 对象
       - IN EFI_HANDLE AgentHandle: 打开此 Protocol 的 Image
       - IN EFI_HANDLE ControllerHandle: 使用此 Protocol 的控制器
@@ -287,13 +287,20 @@ typedef struct {
     - 功能：实际上调用的还是 OpenProtocol ，只是做了参数上的简化。
     - 参数
       - IN EFI_HANDLE Handle: 指定的 Handle
-      - IN EFI_GUID Protocol: 要打开的 Protocol, 指向该 Protocol 的 GUID 指针
+      - IN EFI_GUID *Protocol: 要打开的 Protocol, 指向该 Protocol 的 GUID 指针
       - OUT VOID **Interface: 返回打开的 Protocol 对象
     - 特性
       - AgentHandle 固定为 gDxeCoreImageHandle 。
       - ControllerHandle 固定为 NULL 。
       - Attributes: 固定为 EFI_OPEN_PROTOCOL_BY_HANDLE_PROTOCOL 。
   - gBS->LocateProtocol
+    - 功能：OpenProtocol 与 HandleProtocol 的使用需要知道对应设备和对应的 Protocol ，但是在我们不清楚 Protocol 在哪个设备上的时候，可以通过这个函数直接向 UEFI 内核寻找 Protocol 的位置。
+    - 参数
+      - IN EFI_GUID *Protocol: 要打开的 Protocol, 指向该 Protocol 的 GUID 指针
+      - IN VOID *Registration, OPTIONAL: 可选参数，从 RegisterProtocolNotify() 中获得的 key
+      - OUT VOID **Interface: 返回打开的 Protocol 对象
+    - 特性
+      - UEFI 内核中所包含的 Protocol 对象通常都不止一个，本函数采用的是顺序查找的方式，返回找到的第一个该 Protocol 对象 。
 - 使用 Protocol 提供的服务
 - 关闭 Protocol
   - gBS->CloseProtocol
