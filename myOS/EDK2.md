@@ -318,6 +318,22 @@ typedef struct {
       - IN EFI_HANDLE Handle: 指定设备
       - OUT EFI_GUID ***ProtocolBuffer: 返回 Protocol GUID 数组
       - OUT UINTN *ProtocolBufferCount: 返回 Protocol 的数目
+  - gBS->OpenProtocolInformation
+    - 功能：获取指定设备上指定 Protocol 的打开信息。
+    - 参数
+      - IN EFI_HANDLE Handle: 指定设备
+      - IN EFI_GUID *Protocol: 指定 Protocol
+      - OUT EFI_OPEN_PROTOCOL_INFORMATION_ENTRY **EntryBuffer: 返回信息数组
+      - OUT UINTN *EntryCount: EntryBuffer 数组元素个数
+    - 特性
+      ```
+      typedef struct {
+      	EFI_HANDLE AgentHandle;
+      	EFI_HANDLE ControllerHandle;
+      	UINT32 Attributes;
+      	UINT32 OpenCount;
+      } EFI_OPEN_PROTOCOL_INFORMATION_ENTRY;
+      ```
 - 使用 Protocol 提供的服务
 - 关闭 Protocol
   - gBS->CloseProtocol
