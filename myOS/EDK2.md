@@ -26,7 +26,7 @@
 
 #### 标准应用程序工程模块
 
-- 入口函数：EFI_STATUS UefiMain(ImageHandle, SystemTable)
+- 主函数、模块入口函数：EFI_STATUS UefiMain(ImageHandle, SystemTable)
 - 工程文件：相当于 Makefile
   - Defines: 变量集合（必要）
     - INF_VERSION: INF 版本号（必要）
@@ -34,7 +34,7 @@
     - FILE_GUID: GUID（必要）
     - VERSION_STRING: 版本号（必要）
     - MODULE_TYPE: 模块类型，包括 SEC, PEI_CORE, PEIM, DXE_CORE, DXE_SAL_DRIVER, DXE_SMM_DRIVER, UEF_DRIVER, DXE_DRIVER, DXE_RUNTIME_DRIVER, UEFI_APPLICATION, BASE（必要）
-    - ENTRY_POINT: 入口函数（必要）
+    - ENTRY_POINT: 模块入口函数（必要）
   - Soureces: 源文件集合（必要）
     - Sources.$(Arch) 块所包含的源文件只用于对应的架构。
     - `源文件 | 工具链` 格式所指定的源文件只用于对应工具链
@@ -59,7 +59,7 @@
       - Pcd: 平台配置数据库，库中的变量可以被整个 UEFI 系统访问
 - 编译过程：
   - .c 源文件被编译为 .obj 目标文件。
-  - .obj 目标文件被链接成 .dll（此过程会将入口函数封装为 UefiApplicationEntryPoint 库中的 '_ModuleEntryPoint', 次入口函数在模块入口函数前后增加了构造函数和析构函数）。
+  - .obj 目标文件被链接成 .dll（此过程会将 Image 入口函数封装为 UefiApplicationEntryPoint 库中的 '_ModuleEntryPoint', Image 入口函数在模块入口函数前后增加了构造函数和析构函数）。
   - GenFw 工具将 .dll 文件转换成 .efi 文件。
 - 加载和执行过程：
   - Shell 调用 gBS->LoadImage() 将 efi 文件加载入内存并生存 Image 对象。
@@ -69,7 +69,7 @@
 
 #### Shell 应用程序工程模块
 
-- 入口函数：INTN ShellAppMain(UINTN Argc, CHAR16 ** Argv)
+- 主函数：INTN ShellAppMain(UINTN Argc, CHAR16 ** Argv)
 - 工程文件
   - Defines
     - MODULE_TYPE: UEFI_APPLICATION
@@ -81,11 +81,11 @@
     - UefiBootServicesTableLib 和 UefiLib 通常也要列出。
 - 执行过程
   - 模块入口函数 ShellCEntryLib 的参数与标准应用程序相同。
-  - 模块入口函数调用 EFI_SHELL_PARAMETERS_PROTOCOL 获取命令行参数并传给入口函数 ShellAppMain。
+  - 模块入口函数调用 EFI_SHELL_PARAMETERS_PROTOCOL 获取命令行参数并传给主函数 ShellAppMain。
 
 #### main 应用程序工程模块
 
-- 入口函数：int main(int argc, char ** argv)
+- 主函数：int main(int argc, char ** argv)
 - 工程文件
   - Defines
     - MODULE_TYPE: UEFI_APPLICATION
@@ -100,7 +100,7 @@
   - main 应用程序工程模块要在 AppPkg 环境下才能编译成功，首先要将本工程的工程文件添加到 AppPkg/AppPkg.dsc 文件的 Components 块后通过 `build -p AppPkg/AppPkg.dsc -m xxx.inf` 进行编译。
 - 执行过程
   - 模块入口函数 ShellCEntryLib 的参数与标准应用程序相同。
-  - 模块入口函数调用 EFI_SHELL_PARAMETERS_PROTOCOL 获取命令行参数并传给入口函数 ShellAppMain。
+  - 模块入口函数调用 EFI_SHELL_PARAMETERS_PROTOCOL 获取命令行参数并传给函数 ShellAppMain。
   - ShellAppMain 函数调用 main 函数。
 
 #### 库模块
