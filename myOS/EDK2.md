@@ -337,6 +337,14 @@ typedef struct {
 - 使用 Protocol 提供的服务
 - 关闭 Protocol
   - gBS->CloseProtocol
+    - 功能：关闭打开的 Protocol 。
+    - 参数
+      - IN EFI_HANDLE Handle: 指定的设备
+      - IN EFI_GUID *Protocol: 指定的 Protocol
+      - IN EFI_HANDLE AgentHandle: 使用 Protocol 的对象
+      - IN EFI_HANDLE ControllerHandle: 控制器对象
+    - 特性
+      - 通过 HandleProtocol 和 LocateProtocol 打开的 Protocol 因为没有指定对应的 AgentHandle ，所以无法直接关闭，如果要关闭，必须使用 OpenProtocolInformation() 获取 AgentHandle 和 ControllerHandle 去关闭。
 
 
 
