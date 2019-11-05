@@ -15,6 +15,8 @@
 - **协议**
   - **协议在 UEFI 中的存在形式**
   - **协议的使用**
+- **系统表**
+  - **构成**
 
 
 
@@ -345,6 +347,33 @@ typedef struct {
       - IN EFI_HANDLE ControllerHandle: 控制器对象
     - 特性
       - 通过 HandleProtocol 和 LocateProtocol 打开的 Protocol 因为没有指定对应的 AgentHandle ，所以无法直接关闭，如果要关闭，必须使用 OpenProtocolInformation() 获取 AgentHandle 和 ControllerHandle 去关闭。
+
+
+
+### 系统表
+
+#### 构成
+
+- EFI_TABLE_HANDER Hdr: 表头
+  - UINT64 Signature: 64 位无符号整数，可以通过 SIGNATURE_64(A,B,C,D,E,F,G,H) 宏将 ASCII 字符串转化
+  - UINT32 Revision
+  - UINT32 HeaderSize: 整个表的长度
+  - UINT32 CRC32: 整个表的校验码
+  - UINT32 Reserved
+- UINT16 * FirmwareVendor: 固件提供商
+- UINT32 FirmwareRevision: 固件版本号
+- EFI_HANDLE ConsoleInHandle: 输入控制台设备
+- EFI_SIMPLE_TEXT_INPUT_PROTOCOL * ConIn: 输入 Protocol
+- EFI_HANDLE ConsoleOutHandle: 输出控制台设备
+- EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL * ConOut: 输出 Protocol
+- EFI_HANDLE StandardErrorHandle: 标准错误控制台设备
+- EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL * StdErr: 标准错误控制台 Protocol
+- EFI_RUNTIME_SERVICES * RuntimeServices: 启动服务表
+- EFI_BOOT_SERVICES * BootServices: 运行时服务表
+- UINTN NumberOfTableEntries: 配置表数组大小
+- EFI_CONFIGURATION_TABLE * Configurationtable: 系统配置表
+  - EFI_GUID VendorGuid: 配置表标识符
+  - VOID * VendorTable: 配置表数据
 
 
 
