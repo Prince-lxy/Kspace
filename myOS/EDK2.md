@@ -301,6 +301,17 @@ typedef struct {
       - OUT VOID **Interface: 返回打开的 Protocol 对象
     - 特性
       - UEFI 内核中所包含的 Protocol 对象通常都不止一个，本函数采用的是顺序查找的方式，返回找到的第一个该 Protocol 对象 。
+  - gBS->LocateHandleBuffer
+    - 功能：查找支持某个 Protocol 的所有设备。
+    - 参数
+      - IN EFI_LOCATE_SEARCH_TYPE SearchType: 查找方式
+      - IN EFI_GUID *Protocol OPTIONAL: 指定的 Protocol
+      - IN VOID *SearchKey OPTIONAL: PROTOCOL_NOTIFY 类型
+      - IN OUT UINTN *NoHandles: 返回找到的 Handle 数量
+      - OUT EFI_HANDLE **Buffer: 分配 Handle 数组并返回
+    - 特性
+      - SearchType 有三种：AllHandles 表示找出系统中所有的 Handle; ByRegisterNotify 用于从 RegisterProtocolNotify 中找出匹配 SearchKey 的 Handle; ByProtocol 用于从系统数据库中找设备。
+      - LocateHandle 函数与本函数类似，只是 Buffer 需要调用者自行管理，参数中多一个调用者自己开辟的 Buffer 。
 - 使用 Protocol 提供的服务
 - 关闭 Protocol
   - gBS->CloseProtocol
