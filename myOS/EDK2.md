@@ -17,6 +17,7 @@
   - **协议的使用**
 - **系统表**
   - **构成**
+  - **使用**
 
 
 
@@ -374,6 +375,11 @@ typedef struct {
 - EFI_CONFIGURATION_TABLE * Configurationtable: 系统配置表
   - EFI_GUID VendorGuid: 配置表标识符
   - VOID * VendorTable: 配置表数据
+
+#### 使用
+
+- 通过标准应用程序模块参数获取: UefiMain 入口函数的两个参数 ImageHandle 和 SystemTable 可以直接使用。
+- 通过全局变量 gST, gBS: 在 Shell 应用程序和驱动程序中，我们可以调用 UefiBootServicesTableLib 库中的全局变量 gST, gBS, gImageHandle 。
 
 
 
