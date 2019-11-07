@@ -18,6 +18,15 @@
 - **系统表**
   - **构成**
   - **使用**
+- **启动服务**
+  - **事件服务**
+  - **内存管理服务**
+  - **Protocol 管理服务**
+  - **Protocol 使用服务**
+  - **驱动管理服务**
+  - **Image 管理服务**
+  - **ExitBootServices**
+  - **其他服务**
 
 
 
@@ -380,6 +389,91 @@ typedef struct {
 
 - 通过标准应用程序模块参数获取: UefiMain 入口函数的两个参数 ImageHandle 和 SystemTable 可以直接使用。
 - 通过全局变量 gST, gBS: 在 Shell 应用程序和驱动程序中，我们可以调用 UefiBootServicesTableLib 库中的全局变量 gST, gBS, gImageHandle 。
+
+
+
+### 启动服务
+
+系统进入 DXE 阶段时启动服务表被初始化，最终通过 SystemTable 指针将启动服务表传递给 UEFI 应用程序或驱动程序。
+
+#### 事件服务
+
+事件是异步操作的基础，有了事件的支持，才可以在 UEFI 系统内执行并发操作。
+
+- CreateEvent: 生成事件对象。
+- CreateEventEx: 生成事件对象并将该事件加入到一个组内。
+- CloseEvent: 关闭事件对象。
+- SignalEvent: 触发事件对象。
+- WaitForEvent: 等待事件数组中的任一事件被触发。
+- CheckEvent: 检查事件状态。
+- SetTimer: 设定定时器属性。
+- RaiseTPL: 提升任务优先级。
+- RestoreTPL: 恢复任务优先级。
+
+#### 内存管理服务
+
+提供内存的分配和释放，管理系统内存映射。
+
+- AllocatePool: 分配内存区域。
+- FreePool: 释放内存区域。
+- AllocatePages: 分配内存页。
+- FreePages: 释放内存页。
+- GetMemoryMap: 获取内存映射。
+
+#### Protocol 管理服务
+
+提供安装与卸载 Protocol 的服务，以及注册 Protocol 通知服务。
+
+- InsatllProtocolInterface: 安装 Protocol 到设备上。
+- UninstallProtocolInterface: 卸载设备上的 Protocol 。
+- ReinstallProtocolInterface: 重新安装 Protocol 到设备上。
+- RegisterProtocolNotify: 为指定的 Protocol 注册通知事件。
+- InstallMultipleProtocolInterfaces: 安装多个 Protocol 到设备上。
+- UninstallMultipleProtocolInterfaces: 卸载多个设备上的 Protocol 。
+
+#### Protocol 使用服务
+
+提供 Protocol 查找、打开、关闭等服务。
+
+- OpenProtocol: 打开 Protocol 。
+- HandleProtocol: 简化版本 OpenProtocol 。
+- LocateProtocol: 找出系统中指定 Protocol 的第一个对象。
+- LocateProtocolBuffer: 找出指定 Protocol 所有的 Handle ，系统分配 Buffer ，调用者释放 Buffer 。
+- LocateHandle: 找出指定的 Protocol ，调用者分配、释放 Buffer 。
+- OpenProtocolInformation: 获取 Protocol 打开信息。
+- ProtocolsPerHandle: 获取指定设备上安装的所有 Protocol 。
+- CloseProtocol: 关闭 Protocol 。
+- LocateDevicePath: 在指定设备路径下找出支持指定 Protocol 的设备。
+
+#### 驱动管理服务
+
+提供驱动的安装与卸载服务。
+
+- ConnectController: 将驱动安装到指定设备控制器。
+- DisconnnectController: 卸载指定设备控制器的指定驱动。
+
+#### Image 管理服务
+
+提供 Image 的加载、卸载、启动、退出等服务。
+
+- LoadImage: 加载 .efi 文件至内存并生成 Image 。
+- UnloadImage: 卸载 Image 。
+- StartImage: 启动 Image 。
+- Exit: 退出 Image 。
+
+#### ExitBootServices
+
+结束启动服务，进入 RT 期。
+
+#### 其他服务
+
+- InstallConfigurationTable: 管理系统配置表。
+- GetNextMonotonicCount: 获取系统单调计数器数值。
+- Stall: 暂停 CPU 指定微秒数。
+- SetWatchdogTimer: 设置看门狗定时器。
+- CalculateCrc32: 计算 CRC 校验码。
+- CopyMem: 复制内存。
+- SetMem: 设定指定内存区域数值。
 
 
 
