@@ -405,7 +405,31 @@ typedef struct {
 
 事件是异步操作的基础，有了事件的支持，才可以在 UEFI 系统内执行并发操作。
 
-- CreateEvent: 生成事件对象。
+- CreateEvent
+  - 功能: 生成事件对象。
+  - 参数
+    - IN UINT32 Type: 事件类型
+    - IN EFI_TPL NotifyTPL: 事件等级
+    - IN EFI_EVENT_NOTIFY NotifyFunction, OPTIONAL: 事件通知函数
+    - IN VOID * NotifyContext, OPTIONAL: 事件通知函数第二个参数
+    - OUT EFI_EVENT * Event: 生成的事件
+  - 特性
+    - 事件类型
+      - 0
+      - EVT_TIMER
+      - EVT_RUNTIME
+      - EVT_NOTIFY_WAIT
+      - EVT_NOTIFY_SIGNAL
+      - EVT_SIGNAL_EXIT_BOOT_SERVICES
+      - EVT_SIGNAL_VIRTUAL_ADDRESS_CHANGE
+      - EVI_RUNTIME_CONTEXT
+    - 事件类型可以是其中的某一个，也可以是其中某几个的组合。
+    - 优先级: 0 到 31 的一个整数。
+      - TPL_APPLICATION (4)
+      - TPL_CALLBACK (8)
+      - TPL_NOTIFY (16)
+      - TPL_HIGH_LEVEL (31)
+    - EVT_NOTIFY_WAIT 或 EVT_NOTIFY_SIGNAL 属性的事件才会执行事件通知函数，前者在等待过程中每次事件状态被检查时调用通知函数，后者在事件触发时调用通知函数。
 - CreateEventEx: 生成事件对象并将该事件加入到一个组内。
 - CloseEvent: 关闭事件对象。
 - SignalEvent: 触发事件对象。
