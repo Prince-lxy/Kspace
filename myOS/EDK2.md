@@ -27,6 +27,11 @@
   - **Image 管理服务**
   - **ExitBootServices**
   - **其他服务**
+- **运行时服务**
+  - **时间服务**
+  - **读写系统变量**
+  - **虚拟内存服务**
+  - **其他服务**
 
 
 
@@ -474,6 +479,46 @@ typedef struct {
 - CalculateCrc32: 计算 CRC 校验码。
 - CopyMem: 复制内存。
 - SetMem: 设定指定内存区域数值。
+
+
+
+### 运行时服务
+
+从进入 DXE 阶段运行时服务被初始化开始，知道操作系统结束，运行时服务都存在。
+
+#### 时间服务
+
+提供读取、设置系统时间和读取、设置系统从睡眠中唤醒的时间。
+
+- GetTime: 获取硬件时间。
+- SetTIme: 设置硬件时间。
+- GetWakeupTime: 读取唤醒定时器时间。
+- SetWakeupTime: 设置唤醒定时器时间。
+
+#### 读写系统变量
+
+读取、设置系统变量。
+
+- GetVariable: 读取变量值。
+- GetNextVariableName: 遍历系统变量。
+- SetVariable: 更新、创建变量。
+
+#### 虚拟内存服务
+
+转换物理地址为虚拟地址。
+
+- SetVirtualAddressMap: 设置系统内存映射。
+- ConvertPointer: 查询指定物理地址的虚拟地址。
+
+#### 其他服务
+
+重启系统、获取系统的下一个单调增值。
+
+- GetNextHighMonotonicCount: 获取系统的下一个单调增值。
+- ResetSystem: 重启系统。
+- UpadteCapusule
+- QueryCapsuleCapabilities
+- QueryVariableInfo: 查询关于 EFI 变量存储的信息。
 
 
 
