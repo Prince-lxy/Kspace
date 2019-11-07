@@ -409,7 +409,17 @@ typedef struct {
 - CreateEventEx: 生成事件对象并将该事件加入到一个组内。
 - CloseEvent: 关闭事件对象。
 - SignalEvent: 触发事件对象。
-- WaitForEvent: 等待事件数组中的任一事件被触发。
+- WaitForEvent
+  - 功能：等待事件数组中的任一事件被触发。
+  - 参数
+    - IN UINTN NumberOfEvents: Event 数组内 Event 个数
+    - IN EFI_EVENT * Event: Event 数组
+    - OUT UINTN * Index: 触发的事件在数组中的下标
+  - 特性
+    - 本函数为阻塞操作，函数从前到后循环轮训 Event 数组，直到事件被触发或出错后返回。如果想要等待一段事件后退出等待，可以在 Event 数组中加入定时器事件。
+    - 当检测到某个事件处于触发态后，将该事件在 Event 数组中的下标赋值给 Index 参数，并在返回前重置该事件为非触发状态。
+    - 本函数必须运行在 TPL_APPLICATION 级别，否则返回 EFI_UNSUPPORTED 。
+    - 当检查到某个事件为 EVT_NOTIFY_SIGNAL 类型时，Index 赋值为该事件在 Event 数组中的下标，并返回 EFI_INVALID_PARAMETER 。
 - CheckEvent: 检查事件状态。
 - SetTimer: 设定定时器属性。
 - RaiseTPL: 提升任务优先级。
