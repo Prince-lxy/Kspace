@@ -430,7 +430,20 @@ typedef struct {
       - TPL_NOTIFY (16)
       - TPL_HIGH_LEVEL (31)
     - EVT_NOTIFY_WAIT 或 EVT_NOTIFY_SIGNAL 属性的事件才会执行事件通知函数，前者在等待过程中每次事件状态被检查时调用通知函数，后者在事件触发时调用通知函数。
-- CreateEventEx: 生成事件对象并将该事件加入到一个组内。
+- CreateEventEx
+  - 功能: 生成事件对象并将该事件加入到一个组内。
+  - 参数
+    - IN UINT32 Type: 事件类型
+    - IN EFI_TPL NotifyTpl: 事件等级
+    - IN EFI_EVENT_NOTIFY NotifyFunction, OPTIONAL: 事件通知函数
+    - IN VOID * NotifyContext, OPTIONAL: 事件通知函数第二个参数
+    - IN CONST EFI_GUID * EventGroup OPTIONAL: 事件组
+    - OUT EFI_EVENT * Event: 事件
+  - 特性
+    - 本函数生成的事件会被加入到 EventGroup 组中，当其中任何一个事件被触发后，组内其他成员都会被触发。同组内所有通知函数都会被加入到执行队列，NotifyTpl 等级高者优先执行。
+    - 事件类型不能为 EVT_SIGNAL_EXIT_BOOT_SERVICES 或 EVT_SIGNAL_VIRTUAL_ADDRESS_CHANGE ，因为这两种事件有各自对应的组 gEfiEventExitBootServicesGuid 和 gEfiEventVirtualAddressChangeGuid ，ExitBootService() 与 SetVirtualAddressMap() 调用时分别触发对应组内所有的事件。
+    - Memory Map 改变时会触发 gEfiEventMemoryMapChangeGuid 组内所有的事件。
+    - Boot Manager 加载并执行一个启动项时触发 gEfiEventReadyToBootGuid 组内所有的事件。
 - CloseEvent: 关闭事件对象。
 - SignalEvent: 触发事件对象。
 - WaitForEvent
