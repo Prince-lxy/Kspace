@@ -444,7 +444,12 @@ typedef struct {
     - 事件类型不能为 EVT_SIGNAL_EXIT_BOOT_SERVICES 或 EVT_SIGNAL_VIRTUAL_ADDRESS_CHANGE ，因为这两种事件有各自对应的组 gEfiEventExitBootServicesGuid 和 gEfiEventVirtualAddressChangeGuid ，ExitBootService() 与 SetVirtualAddressMap() 调用时分别触发对应组内所有的事件。
     - Memory Map 改变时会触发 gEfiEventMemoryMapChangeGuid 组内所有的事件。
     - Boot Manager 加载并执行一个启动项时触发 gEfiEventReadyToBootGuid 组内所有的事件。
-- CloseEvent: 关闭事件对象。
+- CloseEvent
+  - 功能: 关闭事件对象。
+  - 参数
+    - IN EFI_EVENT Event
+  - 特性
+    - 通常的原则是事件所有者调用本函数来删除内核中对应的事件对象。
 - SignalEvent
   - 功能: 将事件设置为触发状态。
   - 参数
