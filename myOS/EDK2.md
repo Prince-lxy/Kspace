@@ -476,7 +476,18 @@ typedef struct {
     - 如果事件为触发状态，返回 EFI_SUCCESS 并在返回前将事件置为非触发状态。
     - 如果事件处于非触发状态并且没有通知函数，则返回 EFI_NOT_READY 。
     - 如果事件处于非触发状态但是有通知函数，则执行通知函数。
-- SetTimer: 设定定时器属性。
+- SetTimer
+  - 功能: 设定 EVT_TIMER 事件的定时器属性。
+  - 参数
+    - IN EFI_EVENT Event: 事件对象
+    - IN EFI_TIMER_DELAY Type: 定时器类别
+    - IN UINT64 TriggerTime: 定时器过期时间，单位是 100ns
+  - 特性
+    - 定时器类别
+      - TimerCancel: 用于取消定时器。
+      - TimerPeriodic: 重复型定时器，每隔 TriggerTime * 100ns 触发一次。
+      - TimerRelative: 一次性定时器，TriggerTime * 100ns 时触发一次。
+    - 如果 TriggerTime 是 0 ，则时钟定时器单位从 100ns 变为一个时钟滴答。
 - RaiseTPL: 提升任务优先级。
 - RestoreTPL: 恢复任务优先级。
 
