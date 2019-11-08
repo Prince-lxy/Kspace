@@ -488,8 +488,18 @@ typedef struct {
       - TimerPeriodic: 重复型定时器，每隔 TriggerTime * 100ns 触发一次。
       - TimerRelative: 一次性定时器，TriggerTime * 100ns 时触发一次。
     - 如果 TriggerTime 是 0 ，则时钟定时器单位从 100ns 变为一个时钟滴答。
-- RaiseTPL: 提升任务优先级。
-- RestoreTPL: 恢复任务优先级。
+- RaiseTPL
+  - 功能: 提升任务优先级。
+  - 参数
+    - EFI_TPL NewTpl
+- RestoreTPL
+  - 功能: 恢复任务优先级。
+  - 参数
+    - EFI_TPL OldTpl
+  - 特性
+    - RaiseTPL 与 RestoreTPL 必须成对出现，提升优先级后要尽快恢复。
+    - 当优先级被提升到最高时会关闭中断，回复后中断会被重新打开。
+    - 在优先级恢复到原来之前，所有高于原来优先级的触发态事件的通知函数都要执行完毕。
 
 #### 内存管理服务
 
