@@ -457,7 +457,15 @@ typedef struct {
     - 当检测到某个事件处于触发态后，将该事件在 Event 数组中的下标赋值给 Index 参数，并在返回前重置该事件为非触发状态。
     - 本函数必须运行在 TPL_APPLICATION 级别，否则返回 EFI_UNSUPPORTED 。
     - 当检查到某个事件为 EVT_NOTIFY_SIGNAL 类型时，Index 赋值为该事件在 Event 数组中的下标，并返回 EFI_INVALID_PARAMETER 。
-- CheckEvent: 检查事件状态。
+- CheckEvent
+  - 功能: 检查事件状态。
+  - 参数
+    - IN EFI_EVENT Event: 事件对象
+  - 特性
+    - 如果事件类型为 EVT_NOTIFY_SIGNAL ，则返回错误 EFI_INVALID_PARAMETER 。
+    - 如果事件为触发状态，返回 EFI_SUCCESS 并在返回前将事件置为非触发状态。
+    - 如果事件处于非触发状态并且没有通知函数，则返回 EFI_NOT_READY 。
+    - 如果事件处于非触发状态但是有通知函数，则执行通知函数。
 - SetTimer: 设定定时器属性。
 - RaiseTPL: 提升任务优先级。
 - RestoreTPL: 恢复任务优先级。
