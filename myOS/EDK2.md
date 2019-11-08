@@ -445,7 +445,12 @@ typedef struct {
     - Memory Map 改变时会触发 gEfiEventMemoryMapChangeGuid 组内所有的事件。
     - Boot Manager 加载并执行一个启动项时触发 gEfiEventReadyToBootGuid 组内所有的事件。
 - CloseEvent: 关闭事件对象。
-- SignalEvent: 触发事件对象。
+- SignalEvent
+  - 功能: 将事件设置为触发状态。
+  - 参数
+    - EFI_EVENT Event
+  - 特性
+    - 如果事件类型为 EVT_NOTIFY_SIGNAL ，则将该事件的通知函数加入就绪队列；如果该事件属于一个组，则将组内所有 EVT_NOTIFY_SIGNAL 事件都设置为触发状态并将通知函数都加入到就绪队列执行。
 - WaitForEvent
   - 功能：等待事件数组中的任一事件被触发。
   - 参数
