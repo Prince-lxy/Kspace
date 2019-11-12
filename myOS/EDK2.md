@@ -32,6 +32,7 @@
   - **读写系统变量**
   - **虚拟内存服务**
   - **其他服务**
+- **时钟中断**
 
 
 
@@ -605,6 +606,14 @@ typedef struct {
 - UpadteCapusule
 - QueryCapsuleCapabilities
 - QueryVariableInfo: 查询关于 EFI 变量存储的信息。
+
+
+
+### 时钟中断
+
+UEFI 用事件机制取代了 BIOS 的中断机制，不在向开发者提供中断接口，但其核心还是使用了时钟中断。
+
+UEFI 时钟中断时调用时钟中断函数 CoreTimerTick() , 该函数在更新完系统时间后，会检查事件列表中第一个事件是否到期，如果到期，则触发 mEfiCheckTimerEvent 事件，该事件会检查并触发所有到期的事件。
 
 
 
