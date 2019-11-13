@@ -33,6 +33,7 @@
   - **虚拟内存服务**
   - **其他服务**
 - **时钟中断**
+- **设备路径**
 - **硬盘**
   - **MBR**
   - **GPT**
@@ -617,6 +618,56 @@ typedef struct {
 UEFI 用事件机制取代了 BIOS 的中断机制，不在向开发者提供中断接口，但其核心还是使用了时钟中断。
 
 UEFI 时钟中断时调用时钟中断函数 CoreTimerTick() , 该函数在更新完系统时间后，会检查事件列表中第一个事件是否到期，如果到期，则触发 mEfiCheckTimerEvent 事件，该事件会检查并触发所有到期的事件。
+
+
+
+### 设备路径
+
+系统中每一个设备都通过一个唯一的路径来表示，这个路径就是设备路径。
+
+设备路径中的每个节点称为设备节点，设备路径的随后一个节点为设备结束节点。
+
+每个设备节点都有一个共同的属性 EFI_DEVICE_PATH_PROTOCOL , 用面向对象的角度来看，EFI_DEVICE_PATH_PROTOCOL 是所有设备节点的基类。
+
+EFI_DEVICE_PATH_PROTOCOL：
+- UINT8 Type: 主类型
+- UINT8 SubType: 次类型
+- UINT8 Length[2]: 节点字节数
+
+UEFI 设备类型：
+- 0x1: 硬件设备
+  - 0x1: PCI 设备
+  - 0x2: PCCARD 设备
+  - 0x3: 内存映射设备
+  - 0x4: vendor 自定义设备
+  - 0x5: 控制器设备
+- 0x2: ACPI 设备 Type=0x02
+  - 0x1: ACPI 设备
+  - 0x2: 扩展 ACPI 设备
+  - 0x3: _ADR 设备
+- 0x3: Messaging 设备 Type=0x03
+  - 0x1: ATAPI 设备
+  - 0x2: SCSI 设备
+  - 0x3: 光纤
+  - 0x4: 1394
+  - 0x5: USB
+  - 0xc: IPv4
+  - 0xd: IPv6
+  - 0xf: USB
+  - 0x12: SATA
+  - 0x14: 802.1q
+- 0x4: 介质设备 Type=0x04
+  - 0x1: 硬盘
+  - 0x2: 光驱
+  - 0x3: vender 自定义设备
+  - 0x4: 文件路径
+  - 0x5: 介质 Protocol
+  - 0x6: 固件文件路径
+  - 0x7: 固件卷
+- 0x5: BIOS 启动设备
+- 0x7F: 结束节点设备
+  - 整个设备路径结束
+  - 前一个设备路径结束；新的设备路径开始
 
 
 
