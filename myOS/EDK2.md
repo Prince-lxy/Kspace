@@ -739,6 +739,36 @@ GPT 支持 64 位寻址，支持更大的容量、更多的分区和安全性。
 
 - BlockIo
   - 功能：按块访问硬盘的阻塞函数。
+  - EFI_BLOCK_IO_PROTOCOL:
+    - UINT64 Revision: 版本号
+    - EFI_BLOCK_IO_PROTOCOL Media: 设备信息
+      - UINT32 MediaId
+      - BOOLEAN RemovableMedia
+      - BOOLEAN MediaPresent: 设备中是否有介质
+      - BOOLEAN LogicalPartition: 该介质是否是分区（TRUE），还是整个设备（FALSE）
+      - BOOLEAN ReadOnly
+      - BOOLEAN WriteCaching: 是否用 cache 方式写硬盘
+      - UINT32 BlockSize
+      - UINT32 IoAlign: 读写缓冲区地址对其字节数，0 或 2^n
+      - EFI_LBA LastBlock: 设备最后一个扇区地址
+      - EFI_LBA LowestAlignedLba
+      - UINT32 LogicalBlocksPerPhysicalBlock
+      - UINT32 OptimalTransferLengthGranularity
+    - EFI_BLOCK_RESET Reset: 重置设备
+    - EFI_BLOCK_READ ReadBlocks: 读扇区
+      - IN EFI_BLOCK_IO_PROTOCOL *This
+      - IN UINT32 MediaId: 设备中的介质号
+      - IN EFI_LBA LBA: 起始扇区号
+      - IN UINTN BufferSize: 读取字节数（块的整数倍）
+      - OUT VOID *Buffer: 目标缓存区缓存区由开发者开辟和释放
+    - EFI_BLOCK_WRITE WriteBlocks: 写扇区
+      - IN EFI_BLOCK_IO_PROTOCOL *This
+      - IN UINT32 MediaId: 设备中的介质号
+      - IN EFI_LBA LBA: 起始扇区号
+      - IN UINTN BufferSize: 写入字节数（块的整数倍）
+      - OUT VOID *Buffer: 目标缓存区缓存区由开发者开辟和释放
+    - EFI_BLOCK_FLUSH FlushBlocks: 将设备缓存中的数据全部更新到介质中
+      - IN EFI_BLOCK_IO_PROTOCOL *This
 - BlockIo2
   - 功能：按块访问硬盘的异步函数。
 - DiskIo
