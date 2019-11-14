@@ -796,6 +796,20 @@ GPT 支持 64 位寻址，支持更大的容量、更多的分区和安全性。
     - EFI_STATUS TransactionStatus: 事务完成后的状态
 - DiskIo
   - 功能：按字节访问硬盘的阻塞函数。
+  - EFI_DISK_IO_PROTOCOL
+    - UINT64 Revision
+    - EFI_DISK_READ ReadDisk
+      - IN EFI_DISK_IO_RPOTOCOL * This
+      - IN UINT32 MediaId
+      - IN UINT64 Offset
+      - IN UINTN BufferSize
+      - OUT VOID * Buffer
+    - EFI_DISK_WRITE WriteDisk
+      - IN EFI_DISK_IO_PROTOCOL * This
+      - IN UINT32 MediaId
+      - IN UINT64 Offset
+      - IN UINTN BufferSize
+      - IN VOID * Buffer
 - DiskIo2
   - 功能：按字节访问硬盘的异步函数。
 - PassThrough
