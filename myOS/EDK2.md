@@ -812,6 +812,30 @@ GPT 支持 64 位寻址，支持更大的容量、更多的分区和安全性。
       - IN VOID * Buffer
 - DiskIo2
   - 功能：按字节访问硬盘的异步函数。
+  - EFI_DISK_IO2_PROTOCOL
+    - UINT64 Revision
+    - EFI_DISK_CANCEL_EX Cancel: 取消磁盘上用于等待的事务
+      - EFI_DISK_IO2_PROTOCOL * This
+    - EFI_DISK_READ_EX ReadDiskEx
+      - IN EFI_DISK_IO_PROTOCOL * This
+      - IN UINT32 MediaId
+      - IN UINT64 Offset
+      - IN OUT EFI_DISK_IO2_TOKEN * Token
+      - IN UINTN BufferSize
+      - OUT VOID *Buffer
+    - EFI_DISK_WRITE_EX WriteDiskEx
+      - IN EFI_DISK_IO2_PROTOCOL * This
+      - IN UINT32 MediaId
+      - IN UINT64 Offset
+      - IN OUT EFI_DISK_IO2_TOKEN * Token
+      - IN UINTN BufferSize
+      - IN VOID *Buffer
+    - EFI_DISK_FLUSH_EX FlushDiskEx
+      - IN EFI_DISK_IO2_PROTOCOL * This
+      - IN OUT EFI_DISK_IO2_TOKEN * Token
+  - EFI_DISK_IO2_TOKEN
+    - EFI_EVENT Event: 无论事务成功或失败，事务结束后，Event 会触发
+    - EFI_STATUS TransactionStatus: 表示 Event 触发后事务的状态
 - PassThrough
   - 功能：构建命令包实现复杂操作。
 
