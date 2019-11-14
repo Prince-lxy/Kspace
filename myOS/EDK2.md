@@ -838,6 +838,23 @@ GPT 支持 64 位寻址，支持更大的容量、更多的分区和安全性。
     - EFI_STATUS TransactionStatus: 表示 Event 触发后事务的状态
 - PassThrough
   - 功能：构建命令包实现复杂操作。
+  - EFI_ATA_PASS_THRU_PROTOCOL
+    - EFI_ATA_PASS_THRU_MODE * Mode: 设备模式
+    - EFI_ATA_PASS_THRU_PASSTHRU PassThru: 向 ATA 设备发送 ATA 命令
+    - EFI_ATA_PASS_THRU_GET_NEXT_PORT GetNextPort
+    - EFI_ATA_PASS_THRU_GET_NEXT_DEVICE GetNextDevice
+    - EFI_ATA_PASS_THRU_BUILD_DEVIC_PATH BuildDevicePath
+    - EFI_ATA_PASS_THRU_GET_DEVICE GetDevice
+    - EFI_ATA_PASS_THRU_RESET_PORT ResetPort
+    - EFI_ATA_PASS_THRU_RESET_DEVICE ResetDevice
+  - EFI_SCSI_PASS_THRU_PROTOCOL
+    - EFI_SCSI_PASS_THRU_MODE * Mode: 设备模式
+    - EFI_SCSI_PASS_THRU_PASSTHRU PassThru: 向 SCSI 设备发送 SCSI 命令
+    - EFI_SCSI_PASS_THRU_GET_NEXT_DEVICE GetNextDevice
+    - EFI_SCSI_PASS_THRU_BUILD_DEVICE_PATH BuildDevicePath
+    - EFI_SCSI_PASS_THRU_GET_TARGET_LUN GetTargetLun
+    - EFI_SCSI_PASS_THRU_RESET_CHANNEL ResetChannel
+    - EFI_SCSI_PASS_THRU_RESET_TARGET ResetTarget
 
 
 
