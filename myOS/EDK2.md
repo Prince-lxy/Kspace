@@ -12,9 +12,9 @@
 - **包**
   - **.dsc 文件**
   - **.dec 文件**
-- **协议**
-  - **协议在 UEFI 中的存在形式**
-  - **协议的使用**
+- **Protocol**
+  - **Protocol 在 UEFI 中的存在形式**
+  - **Protocol 的使用**
 - **系统表**
   - **构成**
   - **使用**
@@ -66,7 +66,7 @@
   - LibraryClasses: 库模块集合（必要）
     - 应用程序工程模块必须链接 UefiApplicationEntryPoint 库。
     - 驱动模块必须链接 UefiDriverEntryPoint 库。
-  - Protocols: 协议集合
+  - Protocols: 用到的 Protocol 集合
     - 列出模块所用到的 Protocol 对应的 GUID 变量名。
   - Guids: GUID 集合
   - BuildOptions: 编译链接选项集合
@@ -235,11 +235,11 @@
 
 
 
-### 协议
+### Protocol
 
-协议本身是服务器和客户端之间的约定，而 EDK2 中的协议是广义上的协议，提供服务（函数实现）的一方是服务器，使用服务（函数调用）的一方是客户端。
+Protocol 本身是服务器和客户端之间的约定，而 EDK2 中的协议是广义上的协议，提供服务（函数实现）的一方是服务器，使用服务（函数调用）的一方是客户端。
 
-#### 协议在 UEFI 中的存在形式
+#### Protocol 在 UEFI 中的存在形式
 
 EDK2 用 c 的方式 实现了 c++ 的面向对象。
 
@@ -282,7 +282,7 @@ typedef struct {
 } PROTOCOL_ENTRY;
 ```
 
-#### 协议的使用
+#### Protocol 的使用
 
 - 寻找 Protocol 对象
   - gBS->OpenProtocol
