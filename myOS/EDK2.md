@@ -771,6 +771,29 @@ GPT 支持 64 位寻址，支持更大的容量、更多的分区和安全性。
       - IN EFI_BLOCK_IO_PROTOCOL *This
 - BlockIo2
   - 功能：按块访问硬盘的异步函数。
+  - EFI_BLOCK_IO2_PROTOCOL
+    - EFI_BLOCK_IO_MEDIA * Media
+    - EFI_BLOCK_IO_RESET_EX Reset
+    - EFI_BLOCK_IO_READ_EX ReadBlocksEx
+      - IN EFI_BLOCK_IO2_PROTOCOL * This
+      - IN UINT32 MediaId
+      - IN EFI_LBA LBA
+      - IN OUT EFI_BLOCK_IO2_TOKEN * Token
+      - IN UINTN BufferSize
+      - OUT VOID * Buffer
+    - EFI_BLOCK_IO_Write_EX WriteBlocksEx
+      - IN EFI_BLOCk_IO2_PROTOCOL * This
+      - IN UINT32 MediaId
+      - IN EFI_LBA LBA
+      - IN OUT EFI_BLOCK_IO2_TOKEN * Token
+      - IN UINTN BufferSize
+      - OUT VOID * Buffer
+    - EFI_BLOCK_IO_FLUSH_EX FlushBlocksEx
+      - IN EFI_BLOCK_IO2_PROTOCOL * This
+      - IN OUT EFI_BLOCK_IO2_TOKEN * Token
+  - EFI_BLOCK_IO2_TOKEN: 事务
+    - EFI_EVENT Event: 事务对应的事件
+    - EFI_STATUS TransactionStatus: 事务完成后的状态
 - DiskIo
   - 功能：按字节访问硬盘的阻塞函数。
 - DiskIo2
