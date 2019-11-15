@@ -869,11 +869,27 @@ UEFI 内置了 FileSystemIo (EFI_SIMPLE_FILE_SYSTEM_PROTOCOL) 用于操作 FAT �
       - IN EFI_SIMPLE_FILE_SYSTEM_PROTOCOL * This
       - OUT EFI_FILE_PROTOCOL ** Root
 
-- 文件对象
+- 文件处理对象
   - 功能: 对文件进行操作。
   - EFI_FILE_PROTOCOL
     - UINT64 Revision
     - EFI_FILE_OPEN Open
+      - IN EFI_FILE_PROTOCOL *This
+      - OUT EFI_FILE_PROTOCOL ** NewHandle
+      - IN CHAR16 * FileName
+        - 可以通过绝对路径和相对路径的方式命名，'.' 表示当前目录，'..' 表示父目录。
+      - IN UINT64 OpenMode
+        - EFI_FILE_MODE_READ
+        - EFI_FILE_MODE_WRITE
+        - EFI_FILE_MODE_CREATE
+      - IN UINT64 Attributes
+        - FEI_FILE_READ_ONLY
+        - FEI_FILE_HIDDEN
+        - EFI_FILE_SYSTEM
+        - EFI_FILE_RESERVED
+        - EFI_FILE_DIRECTORY
+        - EFI_FILE_ARCHIVE
+        - EFI_FILE_VALID_ATTR
     - EFI_FILE_CLOSE Close
     - EFI_FILE_DELETE Delete
     - EFI_FILE_READ Read
