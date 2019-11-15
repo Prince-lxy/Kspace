@@ -893,6 +893,7 @@ UEFI 内置了 FileSystemIo (EFI_SIMPLE_FILE_SYSTEM_PROTOCOL) 用于操作 FAT �
     - EFI_FILE_CLOSE Close
       - IN EFI_FILE_PROTOCOL * This
     - EFI_FILE_DELETE Delete
+      - IN EFI_FILE_PROTOCOL * This
     - EFI_FILE_READ Read
       - IN EFI_FILE_PROTOCOL * This
         - 如果 This 指向文件，那么将从文件中读取 BufferSize 字节到缓冲区。
@@ -904,14 +905,55 @@ UEFI 内置了 FileSystemIo (EFI_SIMPLE_FILE_SYSTEM_PROTOCOL) 用于操作 FAT �
       - IN OUT UINTN * BufferSize
       - IN VOID * Buffer
     - EFI_FILE_GET_POSITION GetPosition
+      - IN EFI_FILE_PROTOCOL * This
+      - OUT UINT64 * Position
     - EFI_FILE_SET_POSITION SetPosition
+      - IN EFI_FILE_PROTOCOL * This
+      - IN UINT64 * Position
     - EFI_FILE_GET_INFO GetInfo
+      - IN EFI_FILE_PROTOCOL * This
+      - IN EFI_GUID * InformationType
+      - IN OUT UINTN * BufferSize
+      - OUT VOID * Buffer
     - EFI_FILE_SET_INFO SetInfo
+      - IN EFI_FILE_PROTOCOL * This
+      - IN EFI_GUID * InformationType
+      - IN OUT UINTN * BufferSize
+      - IN VOID * Buffer
     - EFI_FILE_FLUSH Flush
+      - IN EFI_FILE_PROTOCOL * This
     - EFI_FILE_OPEN_EX OpenEx
+      - IN EFI_FILE_PROTOCOL * This
+      - OUT EFI_FILE_PROTOCOL ** NewHandle
+      - IN CHAR16 * FileName
+      - IN UINT64 OpenMode
+      - IN UINT64 Attributes
+      - IN OUT EFI_FILE_IO_TOKEN * Token
+        - EFI_EVENT Event
+        - EFI_STATUS Status
+        - UINTN BufferSize
+        - VOID * Buffer
     - EFI_FILE_READ_EX ReadEx
+      - IN EFI_FILE_PROTOCOL * This
+      - IN OUT EFI_FILE_IO_TOKEN * Token
+        - EFI_EVENT Event
+        - EFI_STATUS Status
+        - UINTN BufferSize
+        - VOID * Buffer
     - EFI_FILE_WRITE_EX WriteEx
+      - IN EFI_FILE_PROTOCOL * This
+      - IN OUT EFI_FILE_IO_TOKEN * Token
+        - EFI_EVENT Event
+        - EFI_STATUS Status
+        - UINTN BufferSize
+        - VOID * Buffer
     - EFI_FILE_FLUSH_EX FlushEx
+      - IN EFI_FILE_PROTOCOL * This
+      - IN OUT EFI_FILE_IO_TOKEN * Token
+        - EFI_EVENT Event
+        - EFI_STATUS Status
+        - UINTN BufferSize
+        - VOID * Buffer
 
 
 
