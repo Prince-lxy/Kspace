@@ -899,6 +899,9 @@ UEFI 内置了 FileSystemIo (EFI_SIMPLE_FILE_SYSTEM_PROTOCOL) 用于操作 FAT �
       - IN OUT UINTN * BufferSize
       - OUT VOID * Buffer
     - EFI_FILE_WRITE Write
+      - IN EFI_FILE_PROTOCOL * This
+      - IN OUT UINTN * BufferSize
+      - IN VOID * Buffer
     - EFI_FILE_GET_POSITION GetPosition
     - EFI_FILE_SET_POSITION SetPosition
     - EFI_FILE_GET_INFO GetInfo
