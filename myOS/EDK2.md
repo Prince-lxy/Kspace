@@ -893,6 +893,11 @@ UEFI 内置了 FileSystemIo (EFI_SIMPLE_FILE_SYSTEM_PROTOCOL) 用于操作 FAT �
     - EFI_FILE_CLOSE Close
     - EFI_FILE_DELETE Delete
     - EFI_FILE_READ Read
+      - IN EFI_FILE_PROTOCOL * This
+        - 如果 This 指向文件，那么将从文件中读取 BufferSize 字节到缓冲区。
+        - 如果 This 指向目录，那么将依次读取该目录下的文件和目录的 EFI_FILE_INFO 。
+      - IN OUT UINTN * BufferSize
+      - OUT VOID * Buffer
     - EFI_FILE_WRITE Write
     - EFI_FILE_GET_POSITION GetPosition
     - EFI_FILE_SET_POSITION SetPosition
