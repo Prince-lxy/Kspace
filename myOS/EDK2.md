@@ -891,6 +891,7 @@ UEFI 内置了 FileSystemIo (EFI_SIMPLE_FILE_SYSTEM_PROTOCOL) 用于操作 FAT �
         - EFI_FILE_ARCHIVE
         - EFI_FILE_VALID_ATTR
     - EFI_FILE_CLOSE Close
+      - IN EFI_FILE_PROTOCOL * This
     - EFI_FILE_DELETE Delete
     - EFI_FILE_READ Read
       - IN EFI_FILE_PROTOCOL * This
