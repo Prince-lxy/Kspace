@@ -38,6 +38,7 @@
   - **MBR**
   - **GPT**
   - **硬盘 Protocol**
+  - **文件系统**
 
 
 
@@ -855,6 +856,37 @@ GPT 支持 64 位寻址，支持更大的容量、更多的分区和安全性。
     - EFI_SCSI_PASS_THRU_GET_TARGET_LUN GetTargetLun
     - EFI_SCSI_PASS_THRU_RESET_CHANNEL ResetChannel
     - EFI_SCSI_PASS_THRU_RESET_TARGET ResetTarget
+
+#### 文件系统
+
+UEFI 内置了 FileSystemIo (EFI_SIMPLE_FILE_SYSTEM_PROTOCOL) 用于操作 FAT 文件系统。 FileSystemIo 建立在 DiskIo 的基础上。
+
+- FileSystemIo
+  - 功能: 操作 FAT 文件系统。
+  - EFI_SIMPLE_FILE_SYSTEM_PROTOCOL
+    - UINT64 Revision
+    - EFI_SIMPLE_FILE_SYSTEM_PROTOCOL_OPEN_VOLUME OpenVolume: 获取根目录指针
+      - IN EFI_SIMPLE_FILE_SYSTEM_PROTOCOL * This
+      - OUT EFI_FILE_PROTOCOL ** Root
+
+- 文件对象
+  - 功能: 对文件进行操作。
+  - EFI_FILE_PROTOCOL
+    - UINT64 Revision
+    - EFI_FILE_OPEN Open
+    - EFI_FILE_CLOSE Close
+    - EFI_FILE_DELETE Delete
+    - EFI_FILE_READ Read
+    - EFI_FILE_WRITE Write
+    - EFI_FILE_GET_POSITION GetPosition
+    - EFI_FILE_SET_POSITION SetPosition
+    - EFI_FILE_GET_INFO GetInfo
+    - EFI_FILE_SET_INFO SetInfo
+    - EFI_FILE_FLUSH Flush
+    - EFI_FILE_OPEN_EX OpenEx
+    - EFI_FILE_READ_EX ReadEx
+    - EFI_FILE_WRITE_EX WriteEx
+    - EFI_FILE_FLUSH_EX FlushEx
 
 
 
