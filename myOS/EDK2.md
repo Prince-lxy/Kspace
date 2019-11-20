@@ -15,6 +15,7 @@
 - **Protocol**
   - **Protocol 在 UEFI 中的存在形式**
   - **Protocol 的使用**
+  - **设计一个名为 XXX 的 Protocol**
 - **系统表**
   - **构成**
   - **使用**
@@ -370,7 +371,56 @@ typedef struct {
     - 特性
       - 通过 HandleProtocol 和 LocateProtocol 打开的 Protocol 因为没有指定对应的 AgentHandle ，所以无法直接关闭，如果要关闭，必须使用 OpenProtocolInformation() 获取 AgentHandle 和 ControllerHandle 去关闭。
 
+#### 设计一个名为 XXX 的 Protocol
 
+Protocol 服务接口设计：xxx.h
+
+1. 分析该 Protocol 所提供的服务，编写 EFI_XXX_PROTOCOL 。
+
+```
+struct _EFI_XXX_PROTOCOL {
+	UINT64 Revision;
+	EFI_XXX_FUNCTION1 XxxFunction1;
+	EFI_XXX_FUNCTION2 XxxFunction2;
+	EFI_XXX_FUNCTION3 XxxFunction3;
+};
+
+typedef struct _EFI_XXX_PROTOCOL EFI_XXX_PROTOCOL;
+typedef EFI_XXX_PROTOCOL EFI_XXX;
+```
+
+2. 指定 GUID 值
+
+```
+#define EFI_XXX_PROTOCOL_GUID {0x12345678, 0x1234, 0x1234, {0x12, 0x12, 0x12, 0x12, 0x12, 0x12, 0x12, 0x12}}
+
+// 为了兼容 EFI 1.1 而定义的 Protocol GUID 名字。
+#define XXX_PROTOCOL EFI_XXX_PROTOCOL_GUID
+extern EFI_GUID gEFiXxxProtocolGUID
+```
+
+3. 定义服务接口
+
+- 函数使用 EFIAPI 调用约定。
+  - window: `__cdecl`
+  - Linux: `__attribute__((cdecl))`
+- 函数第一个参数必须是指向本 Protocol 的 This 指针。
+- 函数返回类型一般为 EFI_STATUS
+- 输入参数前加宏 IN ；输出参数前加 OUT 。
+
+```
+/**
+	功能介绍。
+	@param	This
+	@parm	parm1	参数含义
+	@parm	parm2	参数含义
+	...
+	@retval EFI_XXXXX	返回值含义
+	@retval EFI_XXXXX	返回值含义
+	@retval EFI_XXXXX	返回值含义
+**/
+typedef EFI_STATUS (EFIAPI* EFI_XXX_FUNCTION1) (IN EFI_XXX_PROTOCOL * This, IN XXXXX parm1, OUT XXXXX parm2, IN OUT parm3 ...);
+```
 
 ### 系统表
 
