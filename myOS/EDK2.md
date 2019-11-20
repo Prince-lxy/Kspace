@@ -44,6 +44,7 @@
 
 
 ---
+---
 
 ### 模块
 
@@ -156,6 +157,7 @@
 
 
 
+---
 ### 包
 
 - 结构
@@ -238,6 +240,7 @@
 
 
 
+---
 ### Protocol
 
 Protocol 本身是服务器和客户端之间的约定，而 EDK2 中的协议是广义上的协议，提供服务（函数实现）的一方是服务器，使用服务（函数调用）的一方是客户端。
@@ -422,6 +425,9 @@ extern EFI_GUID gEFiXxxProtocolGUID
 typedef EFI_STATUS (EFIAPI* EFI_XXX_FUNCTION1) (IN EFI_XXX_PROTOCOL * This, IN XXXXX parm1, OUT XXXXX parm2, IN OUT parm3 ...);
 ```
 
+
+
+---
 ### 系统表
 
 #### 构成
@@ -454,6 +460,7 @@ typedef EFI_STATUS (EFIAPI* EFI_XXX_FUNCTION1) (IN EFI_XXX_PROTOCOL * This, IN X
 
 
 
+---
 ### 启动服务
 
 系统进入 DXE 阶段时启动服务表被初始化，最终通过 SystemTable 指针将启动服务表传递给 UEFI 应用程序或驱动程序。
@@ -625,6 +632,7 @@ typedef EFI_STATUS (EFIAPI* EFI_XXX_FUNCTION1) (IN EFI_XXX_PROTOCOL * This, IN X
 
 
 
+---
 ### 运行时服务
 
 从进入 DXE 阶段运行时服务被初始化开始，知道操作系统结束，运行时服务都存在。
@@ -665,6 +673,7 @@ typedef EFI_STATUS (EFIAPI* EFI_XXX_FUNCTION1) (IN EFI_XXX_PROTOCOL * This, IN X
 
 
 
+---
 ### 时钟中断
 
 UEFI 用事件机制取代了 BIOS 的中断机制，不在向开发者提供中断接口，但其核心还是使用了时钟中断。
@@ -673,6 +682,7 @@ UEFI 时钟中断时调用时钟中断函数 CoreTimerTick() , 该函数在更�
 
 
 
+---
 ### 设备路径
 
 系统中每一个设备都通过一个唯一的路径来表示，这个路径就是设备路径。
@@ -723,6 +733,7 @@ UEFI 设备类型：
 
 
 
+---
 ### 硬盘
 
 硬盘的分区方法有两种: MBR (Master Boot Record) 和 GPT (GUID Partition Table)。
@@ -745,7 +756,7 @@ MBR 位于硬盘的 0 号扇区，记录了该硬盘的分区方式。由于只�
   - 12~15 ：扇区个数
 - 510~511 ：0x55 和 0xAA 。
 
-### GPT
+#### GPT
 
 GPT 支持 64 位寻址，支持更大的容量、更多的分区和安全性。
 
