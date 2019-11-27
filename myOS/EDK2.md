@@ -425,6 +425,56 @@ extern EFI_GUID gEFiXxxProtocolGUID
 typedef EFI_STATUS (EFIAPI* EFI_XXX_FUNCTION1) (IN EFI_XXX_PROTOCOL * This, IN XXXXX parm1, OUT XXXXX parm2, IN OUT parm3 ...);
 ```
 
+Protocol 服务接口实现：xxx.c
+
+1. 提供私有数据结构 XXX_PRIVATE_DATA, 用于存放私有变量。
+
+```
+#define XXX_PRIVATE_DATA_SIGNATURE SIGNATURE_32 ('X', 'X', 'X')
+#define XXX_PRIVATE_DATA_FROM_THIS(a) CR(a, XXX_PRIVATE_DATA, Xxx, XXX_PRIVATE_DATA_SIGNATURE)
+
+/**
+	@member	Signature	Protocol 上下文签名
+	@member	Xxx		XXX Protocol 对象
+	@member	xxx		私有变量
+**/
+typedef struct {
+	UINTN	Signature;
+	EFI_XXX_PROTOCOL	Xxx;
+	int	xxx;
+} XXX_PRIVATE_DATA;
+
+static XXX_PRIVATE_DATA gXxxPrivate;
+```
+
+2. 实现成员函数
+
+```
+EFI_STATUS EFIAPI
+XxxFunction1(IN EFI_XXX_PROTOCOL* This, IN XXXXX parm1, IN XXXXX parm2 ...)
+{
+	XXX_PRIVATE_DATA* Private;
+	Private = XXX_PRIVATE_DATA_FROM_THIS(This);
+	...
+}
+```
+3. 初始化私有数据结构中 Protocol 对象函数
+
+```
+EFI_XXX_PROTOCOL * EFI_API InitXxxPrivate()
+{
+	EFI_STATUS Status = 0;
+	XXX_PRIVATE_DATA * Private = &gXxxPrivate;
+	Private->Signature = XXX_PRIVATURE_DATA_SIGNATURE;
+	Private->Xxx.Revision = 1;
+	Private->Xxx.XxxFunction1 = XxxFunction1;
+	Private->Xxx.XxxFunction2 = XxxFunction2;
+	Private->Xxx.XxxFunction3 = XxxFunction3;
+	...
+	return & Private->Xxx;
+}
+```
+
 
 
 ---
