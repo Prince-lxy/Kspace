@@ -475,6 +475,47 @@ EFI_XXX_PROTOCOL * EFI_API InitXxxPrivate()
 }
 ```
 
+Protocol 加入 DXE 驱动框架： xxx.inf
+
+1. MODULE_TYPE 设置为 DXE_DRIVER 或 UEFI_DRIVER 。
+2. [LibraryClasses] 中加入 UefiDriverEntryPoint 。
+
+```
+[Defines]
+	INF_VERSION = 0x00010006
+	BASE_NAME = xxx
+	FILE_GUID = xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+	VERSION_STRING = 0.1
+	MODULE_TYPE = UEFI_DRIVER
+	ENTRY_POINT = InitXxx
+[Sources]
+	xxx.c
+[Packages]
+	MdePkg/MdePkg.dec
+	...
+[LibraryClasses]
+	UefiDriverEntryPoint
+	LibMath
+	...
+```
+
+3. 在模块入口函数中安装驱动服务。
+
+```
+EFI_STATUS EFIAPI
+InitXxx (IN EFI_HANDLE ImageHandle, IN EFI_SYSTEM_TABLE * SystemTable)
+{
+	EFI_STATUS Status;
+	XXX_PRIVATE_DATA * Private = & gXxxPrivate;
+	// 初始化用到的库模块
+	...
+	// 初始化私有数据结构
+	(void) InitXxxPrivate();
+	// 将 EFI_XXX_PROTOCOL 实例 &(Private->Xxx) 安装到自身 Handle 中。
+	Status = gBS->InstallProtocolInterface(&ImageHandle, &gEfiXxxProtocolGUID, EFI_NATIVE_INTERFACE, &Private->Xxx);
+}
+```
+
 
 
 ---
