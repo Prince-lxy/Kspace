@@ -516,6 +516,139 @@ InitXxx (IN EFI_HANDLE ImageHandle, IN EFI_SYSTEM_TABLE * SystemTable)
 }
 ```
 
+如果是设备型驱动，还要实现驱动框架部分：XxxDriver.c
+
+1. 实现 EFI_DRIVER_BINDING_PROTOCOL
+
+```
+EFI_DRIVER_BINDING_PROTOCOL gXxxDriverBinding = {
+	XxxDriverBindingSupported,		// Supported Service
+	XxxDriverBindingStart,			// Start Service
+	XxxDriverBindingStop,			// Stop Service
+	0x1,					// Version
+	NULL,					// ImageHandle
+	NULL					// DriverBindingHandle
+};
+
+/**
+	@retval EFI_SUCCESS
+	@retval EFI_ALREADY_STARTED
+	@retval other
+**/
+EFI_STATUS EFIAPI XxxDriverBindingSupported (
+	IN EFI_DRIVER_BONDING_PROTOCOL * This,
+	IN EFI_HANDLE ControllerHandle,
+	IN EFI_DEVICE_PATH_PROTOCOL * RemainingDevicePath OPTIONAL
+)
+{
+	// 判断 ControllerHandle 是否已经开启了 EFI_XXX_PROTOCOL
+	...
+	// 判断设备型号是否符合
+	...
+}
+
+/**
+	@retval EFI_SUCCESS
+	@retval other
+**/
+EFI_STATUS EFIAPI XxxDriverBindingStop (
+	IN EFI_DRIVER_BONDING_PROTOCOL * This,
+	IN EFI_HANDLE ControllerHandle,
+	IN EFI_DEVICE_PATH_PROTOCOL * RemainingDevicePath OPTIONAL
+)
+{
+	// 关闭 EFI_XXX_PROTOCOL
+	...
+	// 卸载控制器上的 EFI_XXX_PROTOCOL
+	...
+	// 释放内存资源
+	...
+}
+
+/**
+	@retval EFI_SUCCESS
+	@retval EFI_ALREADY_STARTED
+	@retval other
+**/
+EFI_STATUS EFIAPI XxxDriverBindingStart (
+	IN EFI_DRIVER_BONDING_PROTOCOL * This,
+	IN EFI_HANDLE ControllerHandle,
+	IN EFI_DEVICE_PATH_PROTOCOL * RemainingDevicePath OPTIONAL
+)
+{
+	// 打开 EFI_XXX_PROTOCOL
+	...
+	// 为控制器上下文分配内存空间
+	...
+	// 在控制器上安装 EFI_XXX_PROTOCOL
+	...
+}
+```
+
+2. 实现 Component Name Protocol 和 Component Name2 Protocol
+
+```
+GLOBAL_REMOVE_IF_UNREFERENCED EFI_COMPONENT_NAME_PROTOCOL gXxxComponentName = {
+	XxxComponentNameGetDriverName,		// GetDriverName Service
+	XxxComponentNameGetControllerName,	// GetControllerName Service
+	"eng"					// SupportedLanguages
+};
+
+GLOBAL_REMOVE_IF_UNREFERENCED EFI_COMPONENT_NAME2_PROTOCOL gXxxComponentName2 = {
+	(EFI_COMPONENT_NAME2_GET_DRIVER_NAME) XxxComponentNameGetDriverName,
+	(EFI_COMPONENT_NAME2_GET_CONTROLLER_NAME) XxxComponentNameGetControllerName,
+	"en"
+};
+
+GLOBAL_REMOVE_IF_UNREFERENCED EFI_UNICODE_STRING_TABLE mXxxDriverNameTable[] = {
+	{"eng;en", (CHAR16 *)L"XXXXXXXX"},
+	{NULL, NULL}
+};
+
+EFI_STATUS EFIAPI XxxComponentNameGetDriverName (
+	IN EFI_COMPONENT_NAME_PROTOCOL * This,
+	IN CHAR8 * Language,
+	OUT CHAR16 ** DriverName
+)
+{
+	// 从 mXxxDriverNameTable 中找出指定语言的字符串
+	...
+}
+
+EFI_STATUS EFIAPI XxxComponentNameGetControllerName (
+	IN EFI_COMPONENT_NAME_PROTOCOL * This,
+	IN EFI_HANDLE ControllerHandle,
+	IN EFI_HANDLE ChildHandle OPTIONAL,
+	IN CHAR8 * Language,
+	OUT CHAR16 ** ControllerName
+)
+{
+	...
+}
+```
+
+3. 在模块初始化函数中安装 EDBP, ECNP 和 ECN2P
+
+```
+EFI_STATUS EFIAPI InitXxx (
+	IN EFI_HANDLE Imagehandle,
+	IN EFI_SYSTEM_TABLE * SystemTable
+)
+{
+	EFI_STATUS Status;
+	// 利用 UefiLib 提供的 EfiLibInstallDriverBindingComponentName2 安装 EDBP, ECNP 和 ECN2P
+	Status = EfiLibInstallDriverBindingComponentName2(
+		ImageHandle,			// 驱动的 ImageHandle
+		SystemTable,
+		&gXxxDriverBinding,
+		ImageHandle,			// Protocol 安装到的此 ImageHandle
+		&gXxxComponentname,
+		&gXxxComponentName2
+	);
+
+	return Status;
+}
+```
 
 
 ---
