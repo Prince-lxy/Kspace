@@ -47,6 +47,20 @@ BL0 =====> BL1 (uboot-spl) =====> BL2 (uboot.bin)
     - 烧写Flash
     - 配置环境变量
     - 命令引导操作系统
+  - 代码流程
+    - Arch 初始化
+      - `_start` : 入口
+      - `reset` : 关闭中断，设置 svc 模式
+      - `cpu_init_cp15` : 关闭 MMU、TLB
+      - `cpu_init_crit -> lowlevel_init` : 关键寄存器设置（时钟、看门狗、内存、串口）
+      - `_main` : 进入 board 初始化
+    - Board 初始化
+      - `board_init_f_alloc_reserve`: 堆栈、GD、early malloc 空间的分配
+      - `board_init_f_init_reserve`: 堆栈、GD、early malloc 空间的初始化
+      - `board_init_f`: 堆栈、GD、early malloc 空间的初始化（串口、定时、环境变量、I2C、SPI）
+      - `relocate_code、relocate_vectors`: uboot 和异常中断向量表的重定向
+      - `board_init_r`: uboot relocate后的板级初始化（eMMc、Nand flash、Network、中断）
+      - `run_main_loop`: 进入命令行状态，等待终端输入命令以及对命令进行处理
 
 
 
