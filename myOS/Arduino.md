@@ -20,5 +20,12 @@ Arduino是一个基于易用硬件和软件的原型平台（开源）。它由�
 
 
 
+### 2 安装
+
+- 硬件安装：利用 USB 线将开发板与电脑进行连接。
+- 软件安装：通过[下载 Arduino IDE](https://www.arduino.cc/en/Main/Software) 来处理开发板的连接和镜像文件的传输与调试。
+
+
+
 ---
 Power by Internet.
