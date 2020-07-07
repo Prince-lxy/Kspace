@@ -28,5 +28,13 @@ Arduino是一个基于易用硬件和软件的原型平台（开源）。它由�
 
 
 
+### 3 程序结构
+
+Arduino软件是开源的。Java环境的源代码在GPL下发布，C/C++微控制器库在LGPL下。
+
+Arduino 程序以 `Void setup()` 和 `Void loop()` 函数为主体。程序启动时通过 setup 函数来初始化变量，引脚模式，启用库等。setup()函数只能在Arduino板的每次上电或复位后运行一次。而 loop 函数作为程序的主体，用于主动控制 Arduino 板。
+
+
+
 ---
 Power by Internet.
