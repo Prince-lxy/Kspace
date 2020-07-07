@@ -4,6 +4,7 @@
 
 ## Contents / Mind mapping
 - **1 概述**
+- **2 安装**
 
 ---
 
