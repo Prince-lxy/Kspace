@@ -36,5 +36,33 @@ Arduino 程序以 `Void setup()` 和 `Void loop()` 函数为主体。程序启�
 
 
 
+
+### 库函数
+
+#### IO函数
+- pinMode(pin, mode)
+  - 功能：将特定的引脚配置为输入或输出。
+  - 参数
+    - pin: 引脚编号
+    - mode: INPUT(悬空状态, 随机输入状态), OUTPUT(输出状态), INPUT_PULLUP(带有上拉电阻的输入状态)
+- digitalRead(pin)
+  - 功能：检测引脚是否有电压输入，返回 LOW 表示没有电压输入，返回 HIGH 表示有。
+  - 参数
+    - pin: 引脚编号
+- digitalWrite(pin, mode)
+  - 功能：向数字引脚写入 HIGH 或 LOW 值。
+  - 参数
+    - pin：引脚编号
+    - mode: HIGH(高电平 5V/3.3V), LOW(低电平 0V)
+  - 特性
+    - 当引脚处于 INPUT/INPUT_PULLUP 模式时，本函数用于启用(HIGH)或禁止(LOW)引脚内部上拉电阻。
+    - 当引脚处于 OUTPUT 模式时，本函数用于设定相应的电平值。
+- analogRead(pin)
+  - 功能：获取 "analog In" 引脚的输入电压值。此函数返回 0~1023 之间的数字，来对应 0~5 伏特之间的电压。例如，如果施加到 0 号引脚的电压为 2.5V，则 analogRead(0) 返回 512。
+  - 参数
+    - pin: 引脚编号
+
+
+
 ---
 Power by Internet.
