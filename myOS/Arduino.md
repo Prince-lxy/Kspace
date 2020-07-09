@@ -61,6 +61,15 @@ Arduino 程序以 `Void setup()` 和 `Void loop()` 函数为主体。程序启�
   - 功能：获取 "analog In" 引脚的输入电压值。此函数返回 0~1023 之间的数字，来对应 0~5 伏特之间的电压。例如，如果施加到 0 号引脚的电压为 2.5V，则 analogRead(0) 返回 512。
   - 参数
     - pin: 引脚编号
+- analogReference(type)
+  - 功能：配置用于模拟输入的参考电压。
+  - 参数
+    - type
+      - DEFAULT: 5伏(5V Arduino板)或3.3伏(3.3V Arduino板)的默认模拟参考值。
+      - INTERNAL: 内置参考，在 ATmega168 或 ATmega328 上等于 1.1 伏特，在 ATmega8 上等于 2.56 伏特(不适用于Arduino Mega)。
+      - INTERNAL1V1: 内置1.1V参考(仅限Arduino Mega)。
+      - INTERNAL2V56: 内置2.56V参考(仅限Arduino Mega)。
+      - EXTERNAL: 施加到AREF引脚的电压(仅限0到5V)用作参考。
 
 
 
