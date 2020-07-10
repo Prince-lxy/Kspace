@@ -8,6 +8,8 @@
 - **3 程序结构**
 - **4 库函数**
   - **4-1 IO 函数**
+- **5 Arduino 进阶**
+  - **5-1 脉冲宽度调制(PWM)**
 
 ---
 
@@ -64,6 +66,11 @@ Arduino 程序以 `Void setup()` 和 `Void loop()` 函数为主体。程序启�
   - 功能：获取 "analog In" 引脚的输入电压值。此函数返回 0~1023 之间的数字，来对应 0~5 伏特之间的电压。例如，如果施加到 0 号引脚的电压为 2.5V，则 analogRead(0) 返回 512。
   - 参数
     - pin: 引脚编号
+- analogWrite(pin, value)
+  - 功能：向引脚发送模拟值 (PWM 波)。
+  - 参数
+    - pin: 引脚编号
+    - value: 占空比，0 (始终关断) 到 255 (始终导通) 之间。
 - analogReference(type)
   - 功能：配置用于模拟输入的参考电压。
   - 参数
@@ -73,6 +80,32 @@ Arduino 程序以 `Void setup()` 和 `Void loop()` 函数为主体。程序启�
       - INTERNAL1V1: 内置1.1V参考(仅限Arduino Mega)。
       - INTERNAL2V56: 内置2.56V参考(仅限Arduino Mega)。
       - EXTERNAL: 施加到AREF引脚的电压(仅限0到5V)用作参考。
+
+
+
+### 5 Arduino 进阶
+
+#### 5-1 脉冲宽度调制(PWM)
+
+脉冲宽度调制用于调制脉冲的宽度，说白了就是调整一个周期内方波导通 (值为1) 的时间长度，这部分时间称为导通时间 (On-Time)；值为 0 的时间称为 (关断时间 Off-Time)；二者之和为周期；导通时间占总时间的比值为占空比。占空比越高脉冲的能量就越大。
+
+程序中可以通过 `analogRead(pin)` 与 `analogWrite(pin, value)` 来读取和写入 PWM 信号。
+
+- 例如
+```
+int ledPin = 9;					// LED connected to digital pin 9
+int analogPin = 3;				// potentiometer connected to analog pin 3
+int val = 0;					// variable to store the read value
+
+void setup() {
+   pinMode(ledPin, OUTPUT);			// sets the pin as output
+}
+
+void loop() {
+   val = analogRead(analogPin);			// read the input pin, analogRead values go from 0 to 1023
+   analogWrite(ledPin, (val / 4));		// analogWrite values from 0 to 255
+}
+```
 
 
 
