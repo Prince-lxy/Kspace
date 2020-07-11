@@ -80,6 +80,14 @@ Arduino 程序以 `Void setup()` 和 `Void loop()` 函数为主体。程序启�
       - INTERNAL1V1: 内置1.1V参考(仅限Arduino Mega)。
       - INTERNAL2V56: 内置2.56V参考(仅限Arduino Mega)。
       - EXTERNAL: 施加到AREF引脚的电压(仅限0到5V)用作参考。
+- randomSeed(seed)
+  - 功能：根据 seed 来重置随机数生成器。
+  - 参数
+    - seed：伪随机数表偏移值，可以通过 analogRead() 函数根据环境噪音来充当其数值。
+- random(max)
+  - 功能：生成 0 到 max 的伪随机数。
+- random(min, max)
+  - 功能：生成 min 到 max 的伪随机数。
 
 
 
