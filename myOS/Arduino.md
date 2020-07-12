@@ -88,6 +88,12 @@ Arduino 程序以 `Void setup()` 和 `Void loop()` 函数为主体。程序启�
   - 功能：生成 0 到 max 的伪随机数。
 - random(min, max)
   - 功能：生成 min 到 max 的伪随机数。
+- attachInterrupt(pin, ISR, mode)
+  - 功能：指定中断处理程序和中断捕捉模式到对应的引脚上。
+  - 参数
+    - pin：引脚编号。
+    - ISR：中断处理程序。
+    - mode：中断捕捉模式。LOW (在引脚为低电平时触发中断), CHANGE(在引脚更改值时触发中断), FALLING (当引脚从高电平变为低电平时触发中断)。
 
 
 
