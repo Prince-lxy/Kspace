@@ -10,6 +10,7 @@
   - **4-1 IO 函数**
 - **5 Arduino 进阶**
   - **5-1 脉冲宽度调制(PWM)**
+  - **5-2 UART**
 
 ---
 
@@ -118,6 +119,23 @@ void setup() {
 void loop() {
    val = analogRead(analogPin);			// read the input pin, analogRead values go from 0 to 1023
    analogWrite(ledPin, (val / 4));		// analogWrite values from 0 to 255
+}
+```
+
+#### 5-2 UART
+
+Arduino 通过 Serial 对象来控制 UART 串口。
+
+```
+void setup() {
+   Serial.begin(9600);				// 设定串口的波特率为 9600
+}
+
+void loop() {
+   if (Serial.available()) {			// 检测是否有数据从 RX 引脚到来
+      Serial.print("I received:");		// 将字符串 "I received:" 打印到 IDE 的串口监视窗口
+      Serial.write(Serial.read());		// 将 RX 引脚读取到的信息写入 TX 引脚
+   }
 }
 ```
 
