@@ -11,6 +11,7 @@
 - **5 Arduino 进阶**
   - **5-1 脉冲宽度调制(PWM)**
   - **5-2 UART**
+  - **5-3 I2C**
 
 ---
 
@@ -136,6 +137,92 @@ void loop() {
       Serial.print("I received:");		// 将字符串 "I received:" 打印到 IDE 的串口监视窗口
       Serial.write(Serial.read());		// 将 RX 引脚读取到的信息写入 TX 引脚
    }
+}
+```
+
+#### 5-3 I2C
+
+内部集成电路（I2C）是用于微控制器和新一代专用集成电路之间的串行数据交换系统。当它们之间的距离很短（接收器和发射器通常在同一个印刷电路板上）时使用。通过两根导线建立连接。一个用于数据传输，另一个用于同步（时钟信号）。
+
+在 I2C 中，一个设备始终是主设备，其余设备为从设备。主设备和从设备都可以作为接收器和发射器。
+
+- 主发射器 & 从接收器
+
+```
+#include <Wire.h>				//引入 Wire 头文件
+
+void setup() {
+   Wire.begin();				// 注册为主设备
+}
+
+short age = 0;
+
+void loop() {
+   Wire.beginTransmission(2);			// 向 I2C 地址为 2 的从设备建立连接
+   Wire.write("age is = ");
+   Wire.write(age);				// 发送数据
+   Wire.endTransmission();			// 结束传输
+   delay(1000);
+}
+```
+
+```
+#include <Wire.h>				// 引入 Wire 头文件
+
+void setup() {
+   Wire.begin(2)				// 注册为地址为 2 的从设备
+   Wire.onReceive(receiveEvent);		// 注册用于处理接收到信息的回调函数，检测到有数据从主设备传来后调用 receiveEvent 函数
+   Serial.begin(9600);
+}
+
+void loop() {
+   delay(250);
+}
+
+void receiveEvent(int howMany) {
+   while (Wire.available() > 1) {
+      char c = Wire.read();			// 将接收的数据存入字符 c
+      Serial.print(c);
+   }
+}
+```
+- 主接收器 & 从发射器
+
+```
+#include <Wire.h>
+
+void setup() {
+   Wire.begin();				 // 注册为主设备
+   Serial.begin(9600);
+}
+
+void loop() {
+   Wire.requestFrom(2, 1);			// 向地址为 2 的从设备请求 1 个字节数据
+   while (Wire.available()) {
+      char c = Wire.read();			// 将接收到底数据存入字符 c
+      Serial.print(c);
+   }
+   delay(500);
+}
+```
+
+```
+#include <Wire.h>
+
+void setup() {
+   Wire.begin(2);				// 注册为地址为 2 的从设备
+   Wire.onRequest(requestEvent);		// 注册用于处理请求的回到函数，当接受到其他设备发来的请求信息时调用
+}
+
+Byte x = 0;
+
+void loop() {
+   delay(100);
+}
+
+void requestEvent() {
+   Wire.write(x);				// 发送数据
+   x++;
 }
 ```
 
