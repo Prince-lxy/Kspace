@@ -12,6 +12,7 @@
   - **5-1 脉冲宽度调制(PWM)**
   - **5-2 UART**
   - **5-3 I2C**
+  - **5-4 SPI**
 
 ---
 
@@ -223,6 +224,75 @@ void loop() {
 void requestEvent() {
    Wire.write(x);				// 发送数据
    x++;
+}
+```
+
+#### SPI
+
+串行外部设备接口总线（SPI）是用于串行通信的系统，最多可使用四个引脚，一个引脚用于数据接收（MISO, 12），一个引脚用于数据发送（MOSI, 11），一个引脚用于同步（SCK, 13），另一个导体用于选择与之通信的设备（SS, 10）。它是一个全双工连接，这意味着数据是同时发送和接收的。
+
+SPI 有四种工作模式：
+- 模式0（默认值）：时钟通常为低电平（CPOL = 0），数据在从低电平到高电平（前沿）（CPHA = 0）的转换时采样。
+- 模式1：时钟通常为低电平（CPOL = 0），数据在从高电平到低电平（后沿）（CPHA = 1）的转换时采样。
+- 模式2：时钟通常为高电平（CPOL = 1），数据在从高电平到低电平（前沿）（CPHA = 0）的转换时采样。
+- 模式3：时钟通常为高电平（CPOL = 1），数据在从低电平到高电平（后沿）（CPHA = 1）的转换时采样。
+
+SPI 主机：
+
+```
+#include <SPI.h>
+
+void setup (void) {
+   Serial.begin(115200);
+   digitalWrite(SS, HIGH);			// 关闭从机选择
+   SPI.begin ();				// 通过将SCK，MOSI和SS设置为输出来初始化SPI总线，将SCK和MOSI拉低，将SS拉高。
+   SPI.setClockDivider(SPI_CLOCK_DIV8);		// 将SPI时钟设置为系统时钟的八分之一
+}
+
+void loop (void) {
+   char c;
+   digitalWrite(SS, LOW);			// 开启从机选择
+   for (const char * p = "Hello, world!\r" ; c = *p; p++) {
+      SPI.transfer(c);				// 发送数据
+      Serial.print(c);
+   }
+   digitalWrite(SS, HIGH);			// 关闭从机选择
+   delay(2000);
+}
+```
+
+SPI 从机：
+
+```
+#include <SPI.h>
+char buff [50];
+volatile byte indx;
+volatile boolean process;
+
+void setup (void) {
+   Serial.begin (115200);
+   pinMode(MISO, OUTPUT);			// 从机引脚输出设定
+   SPCR |= _BV(SPE);				// 启动从机模式
+   indx = 0;
+   process = false;
+   SPI.attachInterrupt();			// 开启中断
+}
+
+ISR (SPI_STC_vect) {				// 从机接收数据时的中断处理函数
+   byte c = SPDR;				// 从寄存器 SPDR 读取数据
+   if (indx < sizeof buff) {
+      buff [indx++] = c;
+      if (c == '\r')
+         process = true;
+   }
+}
+
+void loop (void) {
+   if (process) {
+      process = false;
+      Serial.println (buff);
+      indx = 0;
+   }
 }
 ```
 
