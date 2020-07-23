@@ -4,12 +4,29 @@
 
 ## Contents / Mind mapping
 - **1 概述**
+- **2 系统架构**
 
 ---
 
 ### 1 概述
 
 STM32系列是专为要求高性能、低成本、低功耗的嵌入式应用设计的 ARM Cortex-M 架构的 32 位微控制器。
+
+
+
+### 2 系统架构
+
+系统包括：
+
+- 驱动单元
+  - ICode 总线(I-bus)
+  - DCode 总线(D-bus)
+  - 系统总线(S-bus)
+  - GP-DMA(通用 DMA)
+- 被动单元
+  - 内部 SRAM
+  - 内部闪存存储器
+  - AHB 到 APB 的桥(AHB2APBx)，它连接所有的 APB 设备
 
 
 
