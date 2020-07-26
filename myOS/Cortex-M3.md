@@ -28,8 +28,8 @@ Cortex-M3 MCU（微控制器单元）包含 Cortex-M3 处理器内核、调试�
     - Trace Interface
   - Memory Protection Unit
   - Bus Interconnect
-  - Instruction Bus
-  - Data Bus
+    - Instruction Bus
+    - Data Bus
   - Debug System
   - Debug Interface
 - 寄存器
@@ -80,6 +80,13 @@ Cortex-M3 MCU（微控制器单元）包含 Cortex-M3 处理器内核、调试�
     - External RAM（0x6000000 ~ 0x9FFFFFFF 1G）：外部扩展 RAM
     - External Device（0xA0000000 ~ 0xDFFFFFFF 1G）：外部拓展设备
     - System Level（0xE0000000 ~ 0xFFFFFFFF 512M）：系统片上外设（NVIC 寄存器、MPU寄存器、调试组件）
+- 总线接口
+  - 分类
+    - 指令存储总线：
+      - I-Code：取指
+      - D-Code：查表
+    - 系统总线：访问内存和外设
+    - 私有外设总线：主要用访问调试组件。
 
 
 
