@@ -24,7 +24,7 @@ Cortex-M3 MCU（微控制器单元）包含 Cortex-M3 处理器内核、调试�
     - Decoder
     - Register Bank
     - ALU
-    - Memory Interface
+    - Memory Interface（存储器接口）
     - Trace Interface
   - Memory Protection Unit
   - Bus Interconnect
@@ -72,6 +72,14 @@ Cortex-M3 MCU（微控制器单元）包含 Cortex-M3 处理器内核、调试�
     - 动态优先级调整：软件可以在运行时期更改中断的优先级。（防止重入？）
     - 缩短中断延迟：通过自动的现场保护和恢复，以及其它的措施。
     - 中断可屏蔽：既可以屏蔽优先级低于某个阈值的中断/异常［译注 8］ (设置 BASEPRI 寄存器)，也可以全体封杀(设置 PRIMASK 和 FAULTMASK 寄存器)。这是为了让时间关键（ time‐critical）的任务能在 deadline 到来前完成，而不被干扰。
+- 存储器映射
+  - 地址划分
+    - Code（0x0 ~ 0x1FFFFFFF 512M）：代码区、中断向量表
+    - SRAM（0x20000000 ~ 0x3FFFFFFF 512M）：片上 SRAM
+    - Peripherals（0x40000000 ~ 0x5FFFFFFF 512M）：片上外设
+    - External RAM（0x6000000 ~ 0x9FFFFFFF 1G）：外部扩展 RAM
+    - External Device（0xA0000000 ~ 0xDFFFFFFF 1G）：外部拓展设备
+    - System Level（0xE0000000 ~ 0xFFFFFFFF 512M）：系统片上外设（NVIC 寄存器、MPU寄存器、调试组件）
 
 
 
