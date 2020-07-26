@@ -26,7 +26,7 @@ Cortex-M3 MCU（微控制器单元）包含 Cortex-M3 处理器内核、调试�
     - ALU
     - Memory Interface（存储器接口）
     - Trace Interface
-  - Memory Protection Unit
+  - Memory Protection Unit（存储器保护单元）
   - Bus Interconnect
     - Instruction Bus
     - Data Bus
@@ -87,6 +87,8 @@ Cortex-M3 MCU（微控制器单元）包含 Cortex-M3 处理器内核、调试�
       - D-Code：查表
     - 系统总线：访问内存和外设
     - 私有外设总线：主要用访问调试组件。
+- MPU（存储器保护单元）
+  - 功能：将某些内存区域设置为只读从而起到保护的作用。
 
 
 
