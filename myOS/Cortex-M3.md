@@ -27,6 +27,12 @@ Cortex-M3 MCU（微控制器单元）包含 Cortex-M3 处理器内核、调试�
     - Data Bus（数据总线）
   - Memory Protection Unit（存储器保护单元）
   - Debug System（调试系统）
+    - ITM（指令跟踪宏单元）
+    - DWT（数据观察点 & 跟踪）
+    - FPB（闪存地址重载 & 断点）
+    - TPIU（跟踪端口接口单元）
+    - ETM（嵌入式跟踪宏单元）
+    - External PPB（外部私有外设总线）
 
 #### Cortex-M3 内核
 
@@ -71,10 +77,25 @@ Cortex-M3 MCU（微控制器单元）包含 Cortex-M3 处理器内核、调试�
   - 地址划分
     - Code（0x0 ~ 0x1FFFFFFF 512M）：代码区、中断向量表
     - SRAM（0x20000000 ~ 0x3FFFFFFF 512M）：片上 SRAM
+      - Bit Band（0x20000000 ~ 0x2010000 1M）：位带区
+      - Bit Band Alias（0x22000000 ~ 0x23FFFFFF 32M）：位带别名区
     - Peripherals（0x40000000 ~ 0x5FFFFFFF 512M）：片上外设
+      - Bit Band（0x40000000 ~ 0x4010000 1M）：位带区
+      - Bit Band Alias（0x42000000 ~ 0x43FFFFFF 32M）：位带别名区
     - External RAM（0x6000000 ~ 0x9FFFFFFF 1G）：外部扩展 RAM
     - External Device（0xA0000000 ~ 0xDFFFFFFF 1G）：外部拓展设备
-    - System Level（0xE0000000 ~ 0xFFFFFFFF 512M）：系统片上外设（NVIC 寄存器、MPU寄存器、调试组件）
+    - Private peripheral bus（0xE0000000 ~ 0xE00FFFFF 1M）：私有外设总线
+      - Internal（0xE0000000 ~ 0xE003FFFF 256k）
+        - ITM（0xE0000000 ~ 0xE0000FFF 4k）
+        - DWT（0xE0001000 ~ 0xE0001FFF 4k）
+        - FPB（0xE0002000 ~ 0xE0002FFF 4k）
+        - NVIC（0xE000E000 ~ 0xE000EFFF 4k）
+      - External（0xE0040000 ~ 0xE0100000 768k）
+        - TPIU（0xE0040000 ~ 0xE0040FFF 4k）
+        - ETM（0xE0041000 ~ 0xE0041FFF 4k）
+        - External PPB（0xE0042000 ~ 0xE00FEFFF 756k）
+        - ROM Table（0xE00FF000 ~ 0xE00FFFFF 4k）
+    - Vendor specific（0xE0100000 ~ 0xFFFFFFFF 511M）：厂商定制
 - 指令集：由过去的 ARM + Thumb 混合指令进化为 Thumb2 指令，提高了代码密度和性能。
 
 #### NVIC（嵌套向量中断控制器）
