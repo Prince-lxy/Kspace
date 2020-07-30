@@ -93,7 +93,7 @@ ldr r0, [r1], #16	;; r0 <- * (r1); r1 <- r1 + 16;
 ldm r0, {r4, r5}	;; r0[0] -> r4; r0[1] -> r5;
 ```
 
-- 字数据存储到指令（register to memory)
+- 字数据存储指令（register to memory)
 
 ```
 str r1, [r2]		;; r1 -> * r2
