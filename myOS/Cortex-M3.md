@@ -136,6 +136,23 @@ Cortex-M3 MCU（微控制器单元）包含 Cortex-M3 处理器内核、调试�
   - 中断可屏蔽：既可以屏蔽优先级低于某个阈值的中断/异常［译注 8］ (设置 BASEPRI 寄存器)，也可以全体封杀(设置 PRIMASK 和 FAULTMASK 寄存器)。这是为了让时间关键（ time‐critical）的任务能在 deadline 到来前完成，而不被干扰。
   - NMI（不可屏蔽中断）输入脚：当它被置为有效（assert）时，NMI 服务例程会无条件地执行。
   - CM3 取消了 FIQ 的概念，支持 240 条中断之外，NVIC 还支持 16 - 4 - 1 = 11 个内部异常源，总共有 256 个预定义异常类型，但具体使用了多少个是由芯片生产商决定。
+- 中断向量表
+  - 0x0 MSP 初始值
+  - 0x4 复位
+  - 0x8 NMI
+  - 0xC 硬 fault
+  - 0x10 MemManage fault
+  - 0x14 总线fault
+  - 0x18 用法 fault
+  - 0x1C ~ 0x28 保留
+  - 0x2C SVC
+  - 0x30 调试监视器
+  - 0x34 保留
+  - 0x38 PendSV
+  - 0x3C SysTick
+  - 0x40 IRQ #0
+  - 0x44 IRQ #1
+  - 0x48 ~ 0x3FF IRQ #2 ~ #239
 
 #### 调试支持
 
