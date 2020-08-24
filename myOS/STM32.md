@@ -93,6 +93,31 @@ MDK5 源自德国的 KEIL 公司，是目前针对 ARM 处理器，尤其是 Cor
 - 软件包下载： http://www.keil.com/dd2/pack
 - STM32F1 支持包：Keil.STM32F1xx_DFP.1.0.5.pack
 
+**MDK5 建立工程**：
+- 建立工程文件夹目录和以下子目录
+```
+- <Project name>
+  - CORE		# 存放芯片初始化汇编文件
+  - SYS			# 存放常用的 delay sys uart 函数
+  - LIB			# 存放外设库函数
+  - OBJ			# 存放编译时产生的中间文件
+  - USER		# 存放 main 函数
+```
+- 打开 MDK5 新建工程，在工程文件夹中建立同名工程文件，选择芯片 `STM32F103ZE`
+- 根据真实的目录结构调整 MDK5 中 Target1 的目录树结构（此处跳过 OBJ目录和自动生成的 Listings 和 Objects 目录）
+- 设置工程
+  - Output
+    - 勾选 `Create HEX File`
+    - 选择 Objects 文件存放目录： `OBJ`
+  - Listing
+    - 选择 Listing 文件存放目录： `OBJ`
+  - C/C++
+    - 填写处理器宏定义：`STM32F10X_HD`
+    - 添加头文件目录
+  - 点击 OK 保存设定
+- 删除 MDK5 自动生成的 Listings 和 Objects 目录（旧版本 MDK 不自动生成，出于兼容性考虑），功能与我们自己创建的 OBJ 相同。
+- 添加 main 函数
+
 
 
 ---
