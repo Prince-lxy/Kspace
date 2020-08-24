@@ -77,8 +77,8 @@ STM32系列是专为要求高性能、低成本、低功耗的嵌入式应用设
 
 MDK5 源自德国的 KEIL 公司，是目前针对 ARM 处理器，尤其是 Cortex M 内核处理器的最佳开发工具。
 
-MDK5 组成：
-- MDK 核心
+**MDK5 组成**：
+- MDK5 核心
   - 编辑器
   - C/C++ 编译器
   - 包安装器
@@ -88,7 +88,7 @@ MDK5 组成：
   - 硬件设备支持
   - 驱动
 
-MDK 安装：
+**MDK5 安装**：
 - MDK5 下载：http://www.keil.com/demo/eval/arm.htm
 - 软件包下载： http://www.keil.com/dd2/pack
 - STM32F1 支持包：Keil.STM32F1xx_DFP.1.0.5.pack
