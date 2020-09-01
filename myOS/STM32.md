@@ -119,6 +119,29 @@ MDK5 源自德国的 KEIL 公司，是目前针对 ARM 处理器，尤其是 Cor
 - 删除 MDK5 自动生成的 Listings 和 Objects 目录（旧版本 MDK 不自动生成，出于兼容性考虑），功能与我们自己创建的 OBJ 相同。
 - 添加 main 函数
 
+**MDK5 调试**：
+- MDK5 软件仿真调试
+  - 步骤
+    - Options for Target 的 Debug 选项卡
+    - 勾选 `Use Simulator` 和 `Run to main()`
+    - 设置 Dialog DLL 为 `DARMATM.DLL`
+    - 设置 Dialog Parameter 为 `-p STM32F103ZE`
+  - 注意
+    - 模拟信号监控只能用于此模式
+    - UART 监控只能用于此模式
+- MDK5 ST-Link 硬件仿真调试
+  - 步骤
+    - Options for Target 的 Debug 选项卡
+      - 勾选 `Use ST-Link Debugger` 和 `Run to main()`
+      - 设置 Dialog DLL 为 `TARMATM.DLL`
+      - 设置 Dialog Parameter 为 `-p STM32F103ZE`
+      - 通过 `Use ST-Link Debugger` 右边的 Settings 设置调试模式 SW/JTAG
+    - Options for Target 的 Utilities 选项卡
+      - 勾选 `Use Debug Driver`
+      - `Use Debug Driver` 左下方的 Settings 中勾选 `Reset and Run`
+  - 注意
+    - 串口监控需要使用第三方串口软件来实现，例如 XCOM
+
 #### 4-2 FlyMcu
 
 功能：通过 USB 串口下载程序到开发板
