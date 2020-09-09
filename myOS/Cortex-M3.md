@@ -104,10 +104,10 @@ Cortex-M3 MCU（微控制器单元）包含 Cortex-M3 处理器内核、调试�
   - 地址划分
     - Code（0x0 ~ 0x1FFFFFFF 512M）：代码区、中断向量表
     - SRAM（0x20000000 ~ 0x3FFFFFFF 512M）：片上 SRAM
-      - Bit Band（0x20000000 ~ 0x2010000 1M）：位带区
+      - Bit Band（0x20000000 ~ 0x20100000 1M）：位带区
       - Bit Band Alias（0x22000000 ~ 0x23FFFFFF 32M）：位带别名区
     - Peripherals（0x40000000 ~ 0x5FFFFFFF 512M）：片上外设
-      - Bit Band（0x40000000 ~ 0x4010000 1M）：位带区
+      - Bit Band（0x40000000 ~ 0x40010000 1M）：位带区
       - Bit Band Alias（0x42000000 ~ 0x43FFFFFF 32M）：位带别名区
     - External RAM（0x6000000 ~ 0x9FFFFFFF 1G）：外部扩展 RAM
     - External Device（0xA0000000 ~ 0xDFFFFFFF 1G）：外部拓展设备
